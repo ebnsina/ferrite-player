@@ -1,23 +1,30 @@
+<div align="center">
+
 # ferrite-player
 
-Framework-agnostic **web-component video player**. One `<ferrite-player>` tag for
-**MP4, HLS, DASH, and live** — [Shaka](https://github.com/shaka-project/shaka-player)
-under the hood, loaded **only when the stream needs MSE** so MP4/native-HLS pay
-nothing. Part of the [Ferrite](https://ferrite.io) video stack.
+**One `<ferrite-player>` tag for MP4, HLS, DASH, and live.**
 
-> Status: **0.0.1** — early. Core playback + default skin work; API evolving.
+A framework-agnostic web-component video player. [Shaka Player](https://github.com/shaka-project/shaka-player)
+powers adaptive streaming under the hood — and loads **only when the stream
+needs MSE**, so MP4 and native HLS pay nothing for it.
+
+[Live demo](https://ebnsina.github.io/ferrite-player/) · [Documentation](https://ebnsina.github.io/ferrite-player/docs.html) · Part of the [Ferrite](https://ferrite.io) video stack
+
+![License](https://img.shields.io/badge/license-MIT-blue) ![Status](https://img.shields.io/badge/status-0.0.1%20·%20early-orange) ![No deps](https://img.shields.io/badge/framework%20deps-none-brightgreen)
+
+</div>
+
+---
 
 ## Why
 
-- **One tag, any format.** Point `src` at `.mp4`, `.m3u8`, or `.mpd`. It plays
-  natively where the browser can (Safari/iOS HLS, MP4) and lazy-loads Shaka for
-  DASH, non-native HLS, and low-latency live.
-- **Tiny core.** Shaka only downloads when a manifest requires MSE.
-- **HTML-first.** A custom element — no framework required. Works in React, Vue,
-  Svelte, or plain HTML.
-- **DRM & live.** Widevine / PlayReady / FairPlay and low-latency live via Shaka.
-- **Themeable, accessible.** CSS custom properties, keyboard controls, ARIA,
-  reduced-motion aware.
+|  | |
+|---|---|
+| **One tag, any format** | Point `src` at `.mp4`, `.m3u8`, or `.mpd`. It plays natively where the browser can (Safari/iOS HLS, MP4) and lazy-loads Shaka for DASH, non-native HLS, and low-latency live. |
+| **Tiny core** | Shaka downloads as a separate chunk, and only when a manifest actually requires Media Source Extensions. |
+| **HTML-first** | A standard custom element — no framework runtime. Drops into React, Vue, Svelte, or a plain HTML page unchanged. |
+| **DRM & live** | Widevine, PlayReady, and FairPlay; low-latency live with a live badge and one-click jump to the edge. |
+| **Themeable & accessible** | Style via CSS custom properties (no shadow piercing). Full keyboard control, ARIA roles, and `prefers-reduced-motion` support. |
 
 ## Install
 
@@ -25,52 +32,79 @@ nothing. Part of the [Ferrite](https://ferrite.io) video stack.
 pnpm add ferrite-player
 ```
 
+Or straight from a CDN — no build step:
+
+```html
+<script type="module" src="https://esm.sh/ferrite-player"></script>
+```
+
 ## Quickstart
 
 ```html
 <script type="module">
-  import 'ferrite-player';
+  import 'ferrite-player'; // registers the <ferrite-player> element
 </script>
 
 <ferrite-player src="https://cdn.example.com/video/master.m3u8"></ferrite-player>
 ```
 
-That's it — the default skin (play, seek, volume, quality, captions, PiP,
-fullscreen, live badge, keyboard shortcuts) is included.
+That's it. The default skin — play, scrubbable seek, volume, quality menu,
+captions, picture-in-picture, fullscreen, live badge, and keyboard shortcuts —
+is included.
 
 ## API
 
 ```ts
 const player = document.querySelector('ferrite-player')!;
 
-// Load with options (live, low-latency, DRM):
+// Load with options — live, low-latency, DRM (license URLs passed at load time):
 await player.load('https://cdn.example.com/manifest.mpd', {
   lowLatency: true,
   drm: { servers: { 'com.widevine.alpha': 'https://license…' } },
 });
 
-player.play();
+player.play();          // → Promise
 player.pause();
-player.src;            // current source
-player.state;          // live snapshot (paused, currentTime, qualities, live, …)
-player.on(() => {});   // subscribe to state changes → unsubscribe fn
+player.src;             // current source (getter); setting it reloads
+player.state;           // live snapshot: paused, currentTime, qualities, live, …
+const off = player.on(() => {}); // subscribe to state changes → unsubscribe fn
 ```
 
-Attributes: `src`, `poster`, `autoplay`, `muted`, `crossorigin`.
+**Attributes:** `src` · `poster` · `autoplay` · `muted` · `crossorigin`
+
+Full reference — every attribute, method, state field, and event — in the
+[documentation](https://ebnsina.github.io/ferrite-player/docs.html).
 
 ## Theming
 
+Style with CSS custom properties; no shadow-DOM piercing required:
+
 ```css
 ferrite-player {
-  --fp-accent: #ff3e00;
-  --fp-radius: 12px;
+  --fp-accent: #ff3e00; /* controls + progress */
+  --fp-radius: 12px;    /* corner radius */
 }
 ```
 
 ## Keyboard
 
-`space`/`k` play · `←`/`→` seek ±5s · `↑`/`↓` volume · `m` mute · `f` fullscreen
-· `c` captions.
+| Key | Action | | Key | Action |
+|---|---|---|---|---|
+| `Space` / `K` | Play / pause | | `↑` / `↓` | Volume ±10% |
+| `←` / `→` | Seek ∓5s | | `M` | Mute |
+| `F` | Fullscreen | | `C` | Captions |
+
+## Browser support
+
+| Format | Chrome / Edge | Firefox | Safari / iOS |
+|---|---|---|---|
+| **MP4** | native | native | native |
+| **HLS** | Shaka (MSE) | Shaka (MSE) | native |
+| **DASH** | Shaka (MSE) | Shaka (MSE) | Shaka (MSE) |
+| **DRM** | Widevine / PlayReady | Widevine | FairPlay |
+
+Modern evergreen browsers. Capabilities are detected at runtime — the player
+picks native playback wherever it can and falls back to Shaka otherwise.
 
 ## Development
 
@@ -79,8 +113,13 @@ pnpm install
 pnpm dev        # demo on http://localhost:5273
 pnpm build      # tsdown → dist/
 pnpm test       # vitest
-pnpm typecheck
+pnpm typecheck  # tsc --noEmit
+pnpm lint       # biome
 ```
+
+**Layout:** `src/core` (element · engine · shaka · store · types) ·
+`src/ui` (skin · styles · icons) · `src/utils` (platform · format) ·
+`demo/` · `docs/` · `tests/`.
 
 ## License
 

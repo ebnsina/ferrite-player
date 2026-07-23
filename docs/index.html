@@ -3,26 +3,42 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ferrite-player — one tag for HLS, DASH & live video</title>
-    <meta name="description" content="Framework-agnostic web-component video player. One <ferrite-player> tag for HLS, DASH, MP4, and live — Shaka under the hood, loaded only when the stream needs it." />
-    <meta property="og:title" content="ferrite-player" />
-    <meta property="og:description" content="One web-component tag for HLS, DASH, MP4, and live video." />
+    <title>Ferrite Player — one tag for HLS, DASH &amp; live video</title>
+    <meta name="description" content="Ferrite Player is a framework-agnostic web-component video player. One <ferrite-player> tag for HLS, DASH, MP4, and live — Shaka under the hood, loaded only when the stream needs it." />
+    <link rel="icon" href="./logo.svg" type="image/svg+xml" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Ferrite Player" />
+    <meta property="og:description" content="One web-component tag for HLS, DASH, MP4, and live video. Shaka only when it's needed." />
+    <meta property="og:image" content="https://ebnsina.github.io/ferrite-player/og.png" />
+    <meta property="og:url" content="https://ebnsina.github.io/ferrite-player/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Ferrite Player" />
+    <meta name="twitter:description" content="One web-component tag for HLS, DASH, MP4, and live video." />
+    <meta name="twitter:image" content="https://ebnsina.github.io/ferrite-player/og.png" />
+
     <link rel="stylesheet" href="./style.css" />
+    <!-- Icons: Phosphor via CDN (HTML has no package step) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
   </head>
   <body>
     <nav>
       <div class="wrap">
-        <a class="brand" href="./index.html"><span class="mark">F</span> ferrite-player</a>
+        <a class="logo" href="./index.html">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="40" height="40" rx="11" fill="url(#g)"/><path d="M16.2 13.4c0-1.24 1.34-2.02 2.42-1.4l9.36 5.38c1.08.62 1.08 2.18 0 2.8l-9.36 5.38c-1.08.62-2.42-.16-2.42-1.4V13.4Z" fill="#fff"/><defs><linearGradient id="g" x1="4" y1="2" x2="36" y2="38" gradientUnits="userSpaceOnUse"><stop stop-color="#ff6a3d"/><stop offset="1" stop-color="#ff2d00"/></linearGradient></defs></svg>
+          <span>Ferrite <span class="pw">Player</span></span>
+        </a>
         <div class="nav-links">
-          <a href="./docs.html">Docs</a>
-          <a href="https://github.com/ebnsina/ferrite-player">GitHub</a>
-          <a class="btn primary" href="./docs.html#install">Get started</a>
+          <a href="./docs.html" class="hide-sm">Docs</a>
+          <a href="https://github.com/ebnsina/ferrite-player"><i class="ph ph-github-logo"></i> GitHub</a>
+          <a class="btn primary" href="./docs.html#install"><i class="ph ph-rocket-launch"></i> Get started</a>
         </div>
       </div>
     </nav>
 
     <header class="hero wrap">
-      <span class="pill"><span class="dot"></span> Part of the Ferrite video stack</span>
       <h1>One tag for <span class="accent">any</span> video.</h1>
       <p class="lede">
         A framework-agnostic web-component player for <strong>HLS, DASH, MP4, and live</strong>.
@@ -30,48 +46,120 @@
         so the core stays tiny.
       </p>
       <div class="hero-cta">
-        <a class="btn primary" href="./docs.html#quickstart">Read the docs</a>
-        <a class="btn" href="https://github.com/ebnsina/ferrite-player">★ Star on GitHub</a>
+        <a class="btn primary" href="./docs.html#quickstart"><i class="ph ph-book-open-text"></i> Read the docs</a>
+        <a class="btn" href="https://github.com/ebnsina/ferrite-player"><i class="ph-fill ph-star"></i> Star on GitHub</a>
       </div>
-      <div class="install"><span class="prompt mono">$</span> <span class="mono">pnpm add ferrite-player</span></div>
+      <div class="install">
+        <span class="prompt">$</span> <span id="cmd">pnpm add ferrite-player</span>
+        <span class="copy" id="copy" title="Copy"><i class="ph ph-copy"></i></span>
+      </div>
     </header>
 
     <div class="wrap showcase">
-      <ferrite-player id="player" src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"></ferrite-player>
+      <div class="frame">
+        <ferrite-player id="player" src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"></ferrite-player>
+      </div>
       <div class="switch">
-        <button data-src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" class="on">HLS</button>
-        <button data-src="https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd">DASH</button>
-        <button data-src="https://test-streams.mux.dev/pts_shift/master.m3u8">HLS (multi-audio)</button>
+        <button data-src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" class="on"><i class="ph ph-monitor-play"></i> HLS</button>
+        <button data-src="https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd"><i class="ph ph-broadcast"></i> DASH</button>
+        <button data-src="https://test-streams.mux.dev/pts_shift/master.m3u8"><i class="ph ph-waveform"></i> Multi-audio</button>
       </div>
     </div>
 
-    <section class="wrap">
-      <span class="eyebrow">Why ferrite-player</span>
-      <h2>Everything a modern player needs, nothing it doesn't.</h2>
-      <div class="grid">
-        <div class="card"><div class="ic">▶</div><h3>One API, any format</h3><p>Point <code>src</code> at <code>.mp4</code>, <code>.m3u8</code>, or <code>.mpd</code>. It plays natively where it can and lazy-loads Shaka for the rest.</p></div>
-        <div class="card"><div class="ic">⚡</div><h3>Tiny core</h3><p>The core bundle is a few kB gzipped. Shaka ships as a separate chunk that loads only when a stream needs MSE.</p></div>
-        <div class="card"><div class="ic">◆</div><h3>HTML-first</h3><p>A real custom element. Drops into React, Vue, Svelte, or plain HTML — no framework, no wrapper.</p></div>
-        <div class="card"><div class="ic">●</div><h3>Live & low-latency</h3><p>DVR live streams with a live badge and one-click jump-to-edge, plus low-latency mode via Shaka.</p></div>
-        <div class="card"><div class="ic">🔒</div><h3>DRM built in</h3><p>Widevine, PlayReady, and FairPlay — pass your license servers at load time; nothing hardcoded.</p></div>
-        <div class="card"><div class="ic">🎨</div><h3>Themeable & accessible</h3><p>Style with CSS custom properties, keyboard-operable with ARIA, and reduced-motion aware.</p></div>
+    <section>
+      <div class="wrap">
+        <span class="eyebrow">Why Ferrite Player</span>
+        <h2>Everything a modern player needs, nothing it doesn't.</h2>
+        <p class="sub">Web standards only — a custom element you can drop into any page or framework.</p>
+        <div class="grid">
+          <div class="card wide">
+            <div class="ic"><i class="ph-fill ph-play-circle"></i></div>
+            <h3>One API, any format</h3>
+            <p>Point <code>src</code> at <code>.mp4</code>, <code>.m3u8</code>, or <code>.mpd</code>. It plays natively where the browser can — Safari/iOS HLS, MP4 — and lazy-loads Shaka for DASH, non-native HLS, and low-latency live.</p>
+          </div>
+          <div class="card wide">
+            <div class="ic"><i class="ph-fill ph-lightning"></i></div>
+            <h3>Tiny core</h3>
+            <p>Shaka ships as a separate chunk and only downloads when a manifest requires Media Source Extensions. MP4 and native HLS pay nothing for it.</p>
+          </div>
+          <div class="card">
+            <div class="ic"><i class="ph-fill ph-brackets-angle"></i></div>
+            <h3>HTML-first</h3>
+            <p>A real custom element. Works in React, Vue, Svelte, or plain HTML — no wrapper.</p>
+          </div>
+          <div class="card">
+            <div class="ic"><i class="ph-fill ph-broadcast"></i></div>
+            <h3>Live &amp; low-latency</h3>
+            <p>A live badge with one-click jump-to-edge, plus low-latency mode via Shaka.</p>
+          </div>
+          <div class="card">
+            <div class="ic"><i class="ph-fill ph-lock-key"></i></div>
+            <h3>DRM built in</h3>
+            <p>Widevine, PlayReady, and FairPlay — pass license servers at load time, never hardcoded.</p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="wrap">
-      <span class="eyebrow">Quickstart</span>
-      <h2>Add the script, use the tag.</h2>
-      <pre><code><span class="tok-com">&lt;!-- import once --&gt;</span>
-<span class="tok-tag">&lt;script</span> <span class="tok-attr">type</span>=<span class="tok-str">"module"</span> <span class="tok-attr">src</span>=<span class="tok-str">"https://esm.sh/ferrite-player"</span><span class="tok-tag">&gt;&lt;/script&gt;</span>
+    <section>
+      <div class="wrap">
+        <div class="split">
+          <div>
+            <span class="eyebrow">Quickstart</span>
+            <h2>Add the script, use the tag.</h2>
+            <ol class="steps">
+              <li><span class="n">1</span><div><h4>Import once</h4><p>Registers the <code>&lt;ferrite-player&gt;</code> custom element globally.</p></div></li>
+              <li><span class="n">2</span><div><h4>Drop in the tag</h4><p>Point <code>src</code> at any stream. The default skin comes included.</p></div></li>
+              <li><span class="n">3</span><div><h4>Theme &amp; script it</h4><p>CSS custom properties for looks; a small JS API for control.</p></div></li>
+            </ol>
+          </div>
+          <pre><code><span class="tok-com">&lt;!-- 1 · import (or: pnpm add ferrite-player) --&gt;</span>
+<span class="tok-tag">&lt;script</span> <span class="tok-attr">type</span>=<span class="tok-str">"module"</span>
+  <span class="tok-attr">src</span>=<span class="tok-str">"https://esm.sh/ferrite-player"</span><span class="tok-tag">&gt;&lt;/script&gt;</span>
 
-<span class="tok-tag">&lt;ferrite-player</span> <span class="tok-attr">src</span>=<span class="tok-str">"https://cdn.example.com/video/master.m3u8"</span><span class="tok-tag">&gt;&lt;/ferrite-player&gt;</span></code></pre>
-      <p class="muted" style="margin-top:14px">The default skin — play, seek, volume, quality, captions, PiP, fullscreen, live badge, keyboard shortcuts — is included. <a class="accent" href="./docs.html">See the full API →</a></p>
+<span class="tok-com">&lt;!-- 2 · use the tag --&gt;</span>
+<span class="tok-tag">&lt;ferrite-player</span>
+  <span class="tok-attr">src</span>=<span class="tok-str">"https://cdn.example.com/master.m3u8"</span>
+<span class="tok-tag">&gt;&lt;/ferrite-player&gt;</span></code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <span class="eyebrow">Compatibility</span>
+        <h2>Native where it can, Shaka where it must.</h2>
+        <p class="sub">Capabilities are detected at runtime — no assumptions about the browser.</p>
+        <table class="matrix">
+          <thead><tr><th>Format</th><th>Chrome / Edge</th><th>Firefox</th><th>Safari / iOS</th></tr></thead>
+          <tbody>
+            <tr><td>MP4</td><td><span class="tag native"><i class="ph-fill ph-check-circle"></i> Native</span></td><td><span class="tag native"><i class="ph-fill ph-check-circle"></i> Native</span></td><td><span class="tag native"><i class="ph-fill ph-check-circle"></i> Native</span></td></tr>
+            <tr><td>HLS</td><td><span class="tag mse"><i class="ph ph-cube"></i> Shaka (MSE)</span></td><td><span class="tag mse"><i class="ph ph-cube"></i> Shaka (MSE)</span></td><td><span class="tag native"><i class="ph-fill ph-check-circle"></i> Native</span></td></tr>
+            <tr><td>DASH</td><td><span class="tag mse"><i class="ph ph-cube"></i> Shaka (MSE)</span></td><td><span class="tag mse"><i class="ph ph-cube"></i> Shaka (MSE)</span></td><td><span class="tag mse"><i class="ph ph-cube"></i> Shaka (MSE)</span></td></tr>
+            <tr><td>DRM</td><td>Widevine · PlayReady</td><td>Widevine</td><td>FairPlay</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="wrap">
+        <span class="eyebrow">Get started</span>
+        <h2>Ship adaptive video in one line.</h2>
+        <div class="hero-cta">
+          <a class="btn primary" href="./docs.html#quickstart"><i class="ph ph-book-open-text"></i> Read the docs</a>
+          <a class="btn" href="https://github.com/ebnsina/ferrite-player"><i class="ph ph-github-logo"></i> View source</a>
+        </div>
+      </div>
     </section>
 
     <footer>
       <div class="wrap">
-        <span>MIT © ebnsina · <a class="accent" href="https://github.com/ebnsina/ferrite-player">github.com/ebnsina/ferrite-player</a></span>
-        <span class="mono muted">HLS · DASH · CMAF · Live · DRM</span>
+        <a class="logo" href="./index.html">
+          <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="40" height="40" rx="11" fill="url(#gf)"/><path d="M16.2 13.4c0-1.24 1.34-2.02 2.42-1.4l9.36 5.38c1.08.62 1.08 2.18 0 2.8l-9.36 5.38c-1.08.62-2.42-.16-2.42-1.4V13.4Z" fill="#fff"/><defs><linearGradient id="gf" x1="4" y1="2" x2="36" y2="38" gradientUnits="userSpaceOnUse"><stop stop-color="#ff6a3d"/><stop offset="1" stop-color="#ff2d00"/></linearGradient></defs></svg>
+          <span>Ferrite <span class="pw">Player</span></span>
+        </a>
+        <span class="mono muted">MIT © ebnsina · HLS · DASH · CMAF · Live · DRM</span>
       </div>
     </footer>
 
@@ -86,6 +174,14 @@
             p.load ? p.load(b.dataset.src) : p.setAttribute('src', b.dataset.src);
           };
         }
+        const copy = document.getElementById('copy');
+        copy.onclick = async () => {
+          try {
+            await navigator.clipboard.writeText(document.getElementById('cmd').textContent);
+            copy.innerHTML = '<i class="ph ph-check"></i>';
+            setTimeout(() => (copy.innerHTML = '<i class="ph ph-copy"></i>'), 1400);
+          } catch {}
+        };
       });
     </script>
   </body>
