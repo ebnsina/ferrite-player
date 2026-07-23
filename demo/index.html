@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ferrite-player demo</title>
+    <style>
+      body { margin: 0; background: #0b0d10; color: #e8eaed; font: 15px system-ui, sans-serif; }
+      main { max-width: 880px; margin: 0 auto; padding: 40px 20px; }
+      h1 { font-weight: 650; letter-spacing: -0.02em; }
+      .row { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0; }
+      button { background: #14171c; color: #e8eaed; border: 1px solid #262b33; border-radius: 8px; padding: 8px 12px; cursor: pointer; }
+      button:hover { border-color: #ff3e00; }
+      ferrite-player { --fp-accent: #ff3e00; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>ferrite-player</h1>
+      <p style="opacity:.7">One tag for HLS, DASH, MP4, and live. Shaka loads only when the stream needs MSE.</p>
+      <div class="row">
+        <button data-src="https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd">DASH (Shaka)</button>
+        <button data-src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8">HLS</button>
+        <button data-src="https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd">Angel One</button>
+      </div>
+      <ferrite-player id="p" src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" poster=""></ferrite-player>
+    </main>
+    <script type="module">
+      import '../src/index.ts';
+      const p = document.getElementById('p');
+      for (const b of document.querySelectorAll('button[data-src]'))
+        b.onclick = () => p.load(b.dataset.src);
+    </script>
+  </body>
+</html>

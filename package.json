@@ -1,0 +1,46 @@
+{
+  "name": "ferrite-player",
+  "version": "0.0.1",
+  "description": "Framework-agnostic web-component video player. One <ferrite-player> tag for HLS, DASH, MP4, and live — Shaka under the hood, loaded only when the stream needs it.",
+  "type": "module",
+  "license": "MIT",
+  "author": "ebnsina <ebnsina.me@gmail.com>",
+  "keywords": [
+    "video",
+    "player",
+    "web-components",
+    "custom-elements",
+    "hls",
+    "dash",
+    "live",
+    "shaka",
+    "streaming",
+    "ferrite"
+  ],
+  "files": ["dist", "README.md", "LICENSE"],
+  "sideEffects": ["./dist/index.js"],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "vite serve demo --port 5273",
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "biome check .",
+    "format": "biome format --write ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/node": "^22.10.0",
+    "happy-dom": "^15.11.0",
+    "shaka-player": "^4.11.0",
+    "tsdown": "^0.15.6",
+    "typescript": "^5.7.0",
+    "vite": "^6.0.0",
+    "vitest": "^2.1.0"
+  }
+}
