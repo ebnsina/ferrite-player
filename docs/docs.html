@@ -129,6 +129,13 @@ player.src = url;       <span class="tok-com">// setter → loads</span></code><
         <p>It's a standard custom element, so it works everywhere. Import it once at your app entry, then use the tag like any other.</p>
         <div class="fw-grid">
           <div class="fw">
+            <div class="fw-head"><img src="https://cdn.simpleicons.org/svelte/FF3E00" alt="Svelte" /><b>Svelte</b><span class="tagline">just works</span></div>
+            <pre><code><span class="tok-com">// +layout.ts</span>
+import 'ferrite-player';
+
+&lt;ferrite-player {src} /&gt;</code></pre>
+          </div>
+          <div class="fw">
             <div class="fw-head"><img src="https://cdn.simpleicons.org/react/61DAFB" alt="React" /><b>React</b><span class="tagline">import once</span></div>
             <pre><code><span class="tok-com">// main.tsx</span>
 import 'ferrite-player';
@@ -141,13 +148,6 @@ import 'ferrite-player';
 import 'ferrite-player';
 
 &lt;ferrite-player :src="url" /&gt;</code></pre>
-          </div>
-          <div class="fw">
-            <div class="fw-head"><img src="https://cdn.simpleicons.org/svelte/FF3E00" alt="Svelte" /><b>Svelte</b><span class="tagline">just works</span></div>
-            <pre><code><span class="tok-com">// +layout.ts</span>
-import 'ferrite-player';
-
-&lt;ferrite-player {src} /&gt;</code></pre>
           </div>
           <div class="fw">
             <div class="fw-head"><img src="https://cdn.simpleicons.org/angular/DD0031" alt="Angular" /><b>Angular</b><span class="tagline">custom elements</span></div>
