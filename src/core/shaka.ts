@@ -64,10 +64,17 @@ export async function loadShaka(
 
   return {
     getQualities() {
-      return player
-        .getVariantTracks()
-        .map((t) => ({ id: t.id, height: t.height, bitrate: t.bandwidth, label: label(t) }))
-        .sort((a, b) => b.bitrate - a.bitrate);
+      // Variants combine audio+video, so many share a resolution. Keep one entry
+      // per height (the highest-bitrate rendition) for a clean quality menu.
+      const byHeight = new Map<number, Quality>();
+      for (const t of player.getVariantTracks()) {
+        const key = t.height ?? -1;
+        const existing = byHeight.get(key);
+        if (!existing || t.bandwidth > existing.bitrate) {
+          byHeight.set(key, { id: t.id, height: t.height, bitrate: t.bandwidth, label: label(t) });
+        }
+      }
+      return [...byHeight.values()].sort((a, b) => b.bitrate - a.bitrate);
     },
     selectQuality(id) {
       if (id < 0) {

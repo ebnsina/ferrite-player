@@ -1,17 +1,33 @@
-// Inline SVG icon paths (24×24, fill=currentColor). Small, dependency-free.
+// Inline SVG icon paths (24×24, filled, fill=currentColor). Clean, verified
+// geometry — no external icon dependency.
 const svg = (p: string) => `<svg viewBox="0 0 24 24" aria-hidden="true">${p}</svg>`;
 
 export const icons = {
   play: svg('<path d="M8 5v14l11-7z"/>'),
-  pause: svg('<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>'),
-  replay: svg('<path d="M12 5V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/>'),
-  volume: svg('<path d="M3 10v4h4l5 5V5L7 10H3zm13.5 2A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/>'),
-  muted: svg('<path d="M3 10v4h4l5 5V5L7 10H3zm13.6-2.6-1.4 1.4L17.2 11l-2 2 1.4 1.4 2-2 2 2 1.4-1.4-2-2 2-2-1.4-1.4-2 2z"/>'),
-  settings: svg('<path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm8.4 4-1.8-1a6.9 6.9 0 0 0 0-2l1.8-1-2-3.4-2 .9a7 7 0 0 0-1.7-1L14.3 1H9.7l-.4 2.1a7 7 0 0 0-1.7 1l-2-.9-2 3.4 1.8 1a6.9 6.9 0 0 0 0 2l-1.8 1 2 3.4 2-.9c.5.4 1.1.8 1.7 1l.4 2.1h4.6l.4-2.1c.6-.2 1.2-.6 1.7-1l2 .9 2-3.4z"/>'),
-  captions: svg('<path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm3 7h4v-1H8V9h3V8H7v4zm6 0h4v-1h-3V9h3V8h-4v4z"/>'),
-  pip: svg('<path d="M19 7h-8v6h8V7zm2-4H3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H3V5h18v14z"/>'),
-  enterFs: svg('<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>'),
-  exitFs: svg('<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>'),
-  check: svg('<path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/>'),
-  chevron: svg('<path d="M8.6 16.6 13.2 12 8.6 7.4 10 6l6 6-6 6z"/>'),
+  pause: svg('<path d="M6 5h4v14H6zm8 0h4v14h-4z"/>'),
+  replay: svg(
+    '<path d="M12 5V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/>',
+  ),
+  volume: svg(
+    '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a6.99 6.99 0 0 1 0 13.42v2.06a9 9 0 0 0 0-17.54z"/>',
+  ),
+  muted: svg(
+    '<path d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.21l2.45 2.45c.03-.2.05-.42.05-.63zM19 12c0 .94-.2 1.83-.54 2.64l1.51 1.51A8.9 8.9 0 0 0 21 12a9 9 0 0 0-7-8.77v2.06A7 7 0 0 1 19 12zM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.94-2.25 1.19v2.06a8.99 8.99 0 0 0 3.69-1.81L19.73 21 21 19.73 12 10.73 4.27 3zM12 4 9.91 6.09 12 8.18z"/>',
+  ),
+  settings: svg(
+    '<path d="M19.14 12.94a7.5 7.5 0 0 0 0-1.88l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96a7 7 0 0 0-1.62-.94l-.36-2.54A.5.5 0 0 0 13.9 2h-3.84a.5.5 0 0 0-.49.42l-.36 2.54c-.59.24-1.13.56-1.62.94l-2.39-.96a.5.5 0 0 0-.6.22L2.28 8.84a.5.5 0 0 0 .12.64l2.03 1.58a7.5 7.5 0 0 0 0 1.88l-2.03 1.58a.5.5 0 0 0-.12.64l1.92 3.32c.14.24.42.32.66.22l2.39-.96c.49.38 1.03.7 1.62.94l.36 2.54c.05.24.25.42.49.42h3.84c.24 0 .45-.18.49-.42l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.24.1.52.02.66-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.5A3.5 3.5 0 1 1 12 8.5a3.5 3.5 0 0 1 0 7z"/>',
+  ),
+  captions: svg(
+    '<path d="M19 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm-8 7H9.5v-.5h-2v3h2V13H11v1a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1zm7 0h-1.5v-.5h-2v3h2V13H18v1a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1z"/>',
+  ),
+  pip: svg(
+    '<path d="M21 3H3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 16H3V4.98h18V19zm-2-8h-8v6h8v-6z"/>',
+  ),
+  enterFs: svg(
+    '<path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>',
+  ),
+  exitFs: svg(
+    '<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>',
+  ),
+  check: svg('<path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.42z"/>'),
 };
