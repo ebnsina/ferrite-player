@@ -165,6 +165,10 @@
 
     <script type="module" src="./player/index.js"></script>
     <script>
+      const nav = document.querySelector('nav');
+      const onScroll = () => nav.classList.toggle('scrolled', scrollY > 10);
+      addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
       addEventListener('DOMContentLoaded', () => {
         const p = document.getElementById('player');
         for (const b of document.querySelectorAll('.switch button')) {

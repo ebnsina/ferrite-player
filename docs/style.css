@@ -71,11 +71,16 @@ code { font-family: var(--mono); font-size: 0.92em; }
 .logo .pw { color: var(--muted); font-weight: 500; }
 
 /* ---------- nav ---------- */
+/* Transparent over the hero; gains a blurred bar only once you scroll. */
 nav {
   position: sticky; top: 0; z-index: 50;
+  background: transparent; border-bottom: 1px solid transparent;
+  transition: background 0.25s, border-color 0.25s, backdrop-filter 0.25s;
+}
+nav.scrolled {
   backdrop-filter: saturate(180%) blur(16px);
   background: rgba(8, 9, 11, 0.72);
-  border-bottom: 1px solid var(--border);
+  border-bottom-color: var(--border);
 }
 nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 66px; }
 .nav-links { display: flex; align-items: center; gap: 8px; }
@@ -203,6 +208,16 @@ pre code { font-family: var(--mono); color: #cdd3db; }
 .tag.mse { color: var(--muted); }
 .tag i { font-size: 1rem; }
 
+/* framework grid (docs) */
+.fw-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 8px 0 22px; }
+.fw { border: 1px solid var(--border); border-radius: 14px; padding: 18px; background: var(--surface); transition: border-color 0.2s, transform 0.2s; }
+.fw:hover { border-color: var(--border-strong); transform: translateY(-2px); }
+.fw-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+.fw-head img { width: 24px; height: 24px; }
+.fw-head b { font-size: 1rem; letter-spacing: -0.01em; }
+.fw-head .tagline { margin-left: auto; font-size: 0.76rem; color: var(--faint); }
+.fw pre { margin: 0; padding: 14px 16px; font-size: 0.82rem; line-height: 1.6; }
+
 /* CTA */
 .cta { text-align: center; padding: 80px 0; }
 .cta h2 { margin-inline: auto; }
@@ -246,5 +261,6 @@ footer a.accent:hover { text-decoration: underline; }
 @media (max-width: 560px) {
   .grid { grid-template-columns: 1fr; }
   .card, .card.wide { grid-column: span 1; }
+  .fw-grid { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto; } }

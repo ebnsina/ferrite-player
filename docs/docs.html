@@ -43,6 +43,8 @@
         <a href="#frameworks">Frameworks</a>
         <a href="#live">Live streaming</a>
         <a href="#drm">DRM</a>
+        <a href="#subtitles">Subtitles</a>
+        <a href="#thumbnails">Hover thumbnails</a>
         <a href="#browsers">Browser support</a>
       </aside>
 
@@ -86,7 +88,8 @@ player.src;             <span class="tok-com">// current source (getter)</span>
 player.src = url;       <span class="tok-com">// setter → loads</span></code></pre>
         <table>
           <tr><th>Method</th><th>Description</th></tr>
-          <tr><td><code>load(src, opts?)</code></td><td>Load a source with optional <code>LoadOptions</code> (live, lowLatency, drm, autoplay).</td></tr>
+          <tr><td><code>load(src, opts?)</code></td><td>Load a source with optional <code>LoadOptions</code> (live, lowLatency, drm, autoplay, <code>subtitles</code>, <code>thumbnails</code>).</td></tr>
+          <tr><td><code>addSubtitles(list)</code></td><td>Add WebVTT/SRT caption tracks after load.</td></tr>
           <tr><td><code>play()</code> / <code>pause()</code></td><td>Control playback.</td></tr>
           <tr><td><code>on(cb)</code></td><td>Subscribe to state changes; returns an unsubscribe function.</td></tr>
           <tr><td><code>state</code></td><td>A read-only snapshot of the current <code>PlayerState</code>.</td></tr>
@@ -106,11 +109,14 @@ player.src = url;       <span class="tok-com">// setter → loads</span></code><
           <tr><th>Key</th><th>Action</th></tr>
           <tr><td><code>Space</code> / <code>K</code></td><td>Play / pause</td></tr>
           <tr><td><code>← / →</code></td><td>Seek ∓5s</td></tr>
+          <tr><td><code>J / L</code></td><td>Seek ∓10s</td></tr>
+          <tr><td><code>0</code>–<code>9</code></td><td>Jump to 0%–90%</td></tr>
+          <tr><td><code>Home / End</code></td><td>Start / end</td></tr>
           <tr><td><code>↑ / ↓</code></td><td>Volume ±10%</td></tr>
-          <tr><td><code>M</code></td><td>Mute</td></tr>
-          <tr><td><code>F</code></td><td>Fullscreen</td></tr>
-          <tr><td><code>C</code></td><td>Captions</td></tr>
+          <tr><td><code>&lt; / &gt;</code></td><td>Slower / faster</td></tr>
+          <tr><td><code>M</code> · <code>F</code> · <code>C</code></td><td>Mute · Fullscreen · Captions</td></tr>
         </table>
+        <p class="muted">On touch devices: tap to toggle controls, double-tap the left/right edge to seek ∓10s.</p>
 
         <h2 id="theming">Theming</h2>
         <p>Style with CSS custom properties — no shadow-DOM piercing needed:</p>
@@ -120,13 +126,49 @@ player.src = url;       <span class="tok-com">// setter → loads</span></code><
 }</code></pre>
 
         <h2 id="frameworks">Frameworks</h2>
-        <p>It's a custom element, so it works everywhere. Import once at your app entry, then use the tag.</p>
-        <pre><code><span class="tok-com">// React</span>
+        <p>It's a standard custom element, so it works everywhere. Import it once at your app entry, then use the tag like any other.</p>
+        <div class="fw-grid">
+          <div class="fw">
+            <div class="fw-head"><img src="https://cdn.simpleicons.org/react/61DAFB" alt="React" /><b>React</b><span class="tagline">import once</span></div>
+            <pre><code><span class="tok-com">// main.tsx</span>
 import 'ferrite-player';
-&lt;ferrite-player src={url} /&gt;
 
-<span class="tok-com">// Vue / Svelte — same: import once, use &lt;ferrite-player src=…&gt;</span></code></pre>
-        <p class="muted">In React, add <code>ferrite-player</code> to your JSX intrinsic elements types (or cast) for full typing.</p>
+&lt;ferrite-player src={url} /&gt;</code></pre>
+          </div>
+          <div class="fw">
+            <div class="fw-head"><img src="https://cdn.simpleicons.org/vuedotjs/4FC08D" alt="Vue" /><b>Vue</b><span class="tagline">no config</span></div>
+            <pre><code><span class="tok-com">// main.ts</span>
+import 'ferrite-player';
+
+&lt;ferrite-player :src="url" /&gt;</code></pre>
+          </div>
+          <div class="fw">
+            <div class="fw-head"><img src="https://cdn.simpleicons.org/svelte/FF3E00" alt="Svelte" /><b>Svelte</b><span class="tagline">just works</span></div>
+            <pre><code><span class="tok-com">// +layout.ts</span>
+import 'ferrite-player';
+
+&lt;ferrite-player {src} /&gt;</code></pre>
+          </div>
+          <div class="fw">
+            <div class="fw-head"><img src="https://cdn.simpleicons.org/angular/DD0031" alt="Angular" /><b>Angular</b><span class="tagline">custom elements</span></div>
+            <pre><code><span class="tok-com">// add CUSTOM_ELEMENTS_SCHEMA</span>
+import 'ferrite-player';
+
+&lt;ferrite-player [attr.src]="url"&gt;</code></pre>
+          </div>
+          <div class="fw">
+            <div class="fw-head"><img src="https://cdn.simpleicons.org/html5/E34F26" alt="HTML" /><b>Plain HTML</b><span class="tagline">CDN</span></div>
+            <pre><code><span class="tok-tag">&lt;script</span> <span class="tok-attr">type</span>=<span class="tok-str">"module"</span> <span class="tok-attr">src</span>=<span class="tok-str">"https://esm.sh/ferrite-player"</span><span class="tok-tag">&gt;&lt;/script&gt;</span>
+<span class="tok-tag">&lt;ferrite-player</span> <span class="tok-attr">src</span>=<span class="tok-str">"…"</span><span class="tok-tag">&gt;&lt;/ferrite-player&gt;</span></code></pre>
+          </div>
+          <div class="fw">
+            <div class="fw-head"><img src="https://cdn.simpleicons.org/webcomponentsdotorg/29ABE2" alt="Web Components" /><b>Anything else</b><span class="tagline">web standards</span></div>
+            <pre><code><span class="tok-com">// it's just a DOM element</span>
+const p = document.createElement('ferrite-player');
+p.load(url);</code></pre>
+          </div>
+        </div>
+        <p class="muted">In React with TypeScript, add <code>ferrite-player</code> to your JSX intrinsic elements (or cast) for full typing.</p>
 
         <h2 id="live">Live streaming</h2>
         <p>Pass <code>live</code>/<code>lowLatency</code> at load. A live badge appears; when the viewer drifts back, it dims — one click jumps to the live edge.</p>
@@ -144,6 +186,31 @@ import 'ferrite-player';
   },
 });</code></pre>
 
+        <h2 id="subtitles">Subtitles (VTT &amp; SRT)</h2>
+        <p>Side-load captions in either format — SubRip is converted to WebVTT internally, so <code>.srt</code> and <code>.vtt</code> behave identically on both the native and Shaka engines. In-manifest tracks show up automatically; these add to them.</p>
+        <pre><code><span class="tok-com">// at load time…</span>
+await player.load(url, {
+  subtitles: [
+    { url: '/caps/en.vtt', language: 'en', label: 'English', <span class="tok-attr">default</span>: true },
+    { url: '/caps/es.srt', language: 'es', label: 'Español' },
+  ],
+});
+
+<span class="tok-com">// …or any time after</span>
+await player.addSubtitles([{ url: '/caps/fr.srt', language: 'fr', srt: true }]);</code></pre>
+        <p class="muted">Tracks appear in the settings menu and via the <code>CC</code> button; the last-used language is remembered across sessions.</p>
+
+        <h2 id="thumbnails">Hover thumbnails</h2>
+        <p>Pass a WebVTT storyboard and the seek bar shows a preview image as you hover or scrub — the format the Ferrite transcoder emits. Each cue's payload is an image URL with an optional <code>#xywh</code> sprite fragment.</p>
+        <pre><code>await player.load(url, { thumbnails: '/storyboard.vtt' });
+
+<span class="tok-com">// storyboard.vtt</span>
+WEBVTT
+
+00:00:00.000 --> 00:00:03.000
+sprite.jpg#xywh=0,0,160,90</code></pre>
+        <p class="muted">Without a storyboard you still get a time bubble on hover; with one you get frame previews.</p>
+
         <h2 id="browsers">Browser support</h2>
         <p>Modern evergreen browsers. HLS plays natively on Safari/iOS; DASH and non-native HLS use Shaka (MSE + EME). MP4 plays natively everywhere. FairPlay on Safari, Widevine/PlayReady elsewhere.</p>
 
@@ -157,5 +224,11 @@ import 'ferrite-player';
         <span class="mono muted">HLS · DASH · CMAF · Live · DRM</span>
       </div>
     </footer>
+    <script>
+      const nav = document.querySelector('nav');
+      const onScroll = () => nav.classList.toggle('scrolled', scrollY > 10);
+      addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    </script>
   </body>
 </html>
