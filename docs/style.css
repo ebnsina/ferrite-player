@@ -159,7 +159,7 @@ section h2 { font-size: clamp(1.7rem, 3.5vw, 2.5rem); letter-spacing: -0.03em; f
 section > .wrap > p.sub { color: var(--muted); font-size: 1.05rem; max-width: 560px; margin-bottom: 40px; }
 
 /* bento feature grid */
-.grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 16px; }
 .card {
   grid-column: span 2;
   border: 1px solid var(--border); border-radius: var(--radius); padding: 26px;
@@ -190,7 +190,7 @@ pre code { font-family: var(--mono); color: #cdd3db; }
 .tok-str { color: #7fd0a0; }
 
 /* quickstart split */
-.split { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: center; }
 .steps { list-style: none; display: grid; gap: 18px; }
 .steps li { display: flex; gap: 14px; }
 .steps .n { flex: none; width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-weight: 700; font-size: 0.9rem; color: var(--accent); background: rgba(255, 62, 0, 0.1); border: 1px solid rgba(255, 62, 0, 0.2); }
@@ -209,8 +209,8 @@ pre code { font-family: var(--mono); color: #cdd3db; }
 .tag i { font-size: 1rem; }
 
 /* framework grid (docs) */
-.fw-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 8px 0 22px; }
-.fw { border: 1px solid var(--border); border-radius: 14px; padding: 18px; background: var(--surface); transition: border-color 0.2s, transform 0.2s; }
+.fw-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 8px 0 22px; }
+.fw { min-width: 0; border: 1px solid var(--border); border-radius: 14px; padding: 18px; background: var(--surface); transition: border-color 0.2s, transform 0.2s; }
 .fw:hover { border-color: var(--border-strong); transform: translateY(-2px); }
 .fw-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
 .fw-head img { width: 24px; height: 24px; }
@@ -229,7 +229,7 @@ footer .wrap { display: flex; align-items: center; justify-content: space-betwee
 footer a.accent:hover { text-decoration: underline; }
 
 /* ---------- docs page ---------- */
-.docs { display: grid; grid-template-columns: 220px 1fr; gap: 48px; padding-top: 40px; padding-bottom: 80px; align-items: start; }
+.docs { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 48px; padding-top: 40px; padding-bottom: 80px; align-items: start; }
 .side { position: sticky; top: 90px; display: flex; flex-direction: column; gap: 2px; }
 .side .grp { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--faint); font-weight: 700; margin: 18px 0 6px; }
 .side .grp:first-child { margin-top: 0; }
