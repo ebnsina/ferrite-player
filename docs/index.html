@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ferrite-player — one tag for HLS, DASH & live video</title>
+    <meta name="description" content="Framework-agnostic web-component video player. One <ferrite-player> tag for HLS, DASH, MP4, and live — Shaka under the hood, loaded only when the stream needs it." />
+    <meta property="og:title" content="ferrite-player" />
+    <meta property="og:description" content="One web-component tag for HLS, DASH, MP4, and live video." />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="wrap">
+        <a class="brand" href="./index.html"><span class="mark">F</span> ferrite-player</a>
+        <div class="nav-links">
+          <a href="./docs.html">Docs</a>
+          <a href="https://github.com/ebnsina/ferrite-player">GitHub</a>
+          <a class="btn primary" href="./docs.html#install">Get started</a>
+        </div>
+      </div>
+    </nav>
+
+    <header class="hero wrap">
+      <span class="pill"><span class="dot"></span> Part of the Ferrite video stack</span>
+      <h1>One tag for <span class="accent">any</span> video.</h1>
+      <p class="lede">
+        A framework-agnostic web-component player for <strong>HLS, DASH, MP4, and live</strong>.
+        Shaka powers adaptive streaming — but only downloads when a manifest actually needs it,
+        so the core stays tiny.
+      </p>
+      <div class="hero-cta">
+        <a class="btn primary" href="./docs.html#quickstart">Read the docs</a>
+        <a class="btn" href="https://github.com/ebnsina/ferrite-player">★ Star on GitHub</a>
+      </div>
+      <div class="install"><span class="prompt mono">$</span> <span class="mono">pnpm add ferrite-player</span></div>
+    </header>
+
+    <div class="wrap showcase">
+      <ferrite-player id="player" src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"></ferrite-player>
+      <div class="switch">
+        <button data-src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" class="on">HLS</button>
+        <button data-src="https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd">DASH</button>
+        <button data-src="https://test-streams.mux.dev/pts_shift/master.m3u8">HLS (multi-audio)</button>
+      </div>
+    </div>
+
+    <section class="wrap">
+      <span class="eyebrow">Why ferrite-player</span>
+      <h2>Everything a modern player needs, nothing it doesn't.</h2>
+      <div class="grid">
+        <div class="card"><div class="ic">▶</div><h3>One API, any format</h3><p>Point <code>src</code> at <code>.mp4</code>, <code>.m3u8</code>, or <code>.mpd</code>. It plays natively where it can and lazy-loads Shaka for the rest.</p></div>
+        <div class="card"><div class="ic">⚡</div><h3>Tiny core</h3><p>The core bundle is a few kB gzipped. Shaka ships as a separate chunk that loads only when a stream needs MSE.</p></div>
+        <div class="card"><div class="ic">◆</div><h3>HTML-first</h3><p>A real custom element. Drops into React, Vue, Svelte, or plain HTML — no framework, no wrapper.</p></div>
+        <div class="card"><div class="ic">●</div><h3>Live & low-latency</h3><p>DVR live streams with a live badge and one-click jump-to-edge, plus low-latency mode via Shaka.</p></div>
+        <div class="card"><div class="ic">🔒</div><h3>DRM built in</h3><p>Widevine, PlayReady, and FairPlay — pass your license servers at load time; nothing hardcoded.</p></div>
+        <div class="card"><div class="ic">🎨</div><h3>Themeable & accessible</h3><p>Style with CSS custom properties, keyboard-operable with ARIA, and reduced-motion aware.</p></div>
+      </div>
+    </section>
+
+    <section class="wrap">
+      <span class="eyebrow">Quickstart</span>
+      <h2>Add the script, use the tag.</h2>
+      <pre><code><span class="tok-com">&lt;!-- import once --&gt;</span>
+<span class="tok-tag">&lt;script</span> <span class="tok-attr">type</span>=<span class="tok-str">"module"</span> <span class="tok-attr">src</span>=<span class="tok-str">"https://esm.sh/ferrite-player"</span><span class="tok-tag">&gt;&lt;/script&gt;</span>
+
+<span class="tok-tag">&lt;ferrite-player</span> <span class="tok-attr">src</span>=<span class="tok-str">"https://cdn.example.com/video/master.m3u8"</span><span class="tok-tag">&gt;&lt;/ferrite-player&gt;</span></code></pre>
+      <p class="muted" style="margin-top:14px">The default skin — play, seek, volume, quality, captions, PiP, fullscreen, live badge, keyboard shortcuts — is included. <a class="accent" href="./docs.html">See the full API →</a></p>
+    </section>
+
+    <footer>
+      <div class="wrap">
+        <span>MIT © ebnsina · <a class="accent" href="https://github.com/ebnsina/ferrite-player">github.com/ebnsina/ferrite-player</a></span>
+        <span class="mono muted">HLS · DASH · CMAF · Live · DRM</span>
+      </div>
+    </footer>
+
+    <script type="module" src="./player/index.js"></script>
+    <script>
+      addEventListener('DOMContentLoaded', () => {
+        const p = document.getElementById('player');
+        for (const b of document.querySelectorAll('.switch button')) {
+          b.onclick = () => {
+            document.querySelectorAll('.switch button').forEach((x) => x.classList.remove('on'));
+            b.classList.add('on');
+            p.load ? p.load(b.dataset.src) : p.setAttribute('src', b.dataset.src);
+          };
+        }
+      });
+    </script>
+  </body>
+</html>

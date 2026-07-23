@@ -1,0 +1,101 @@
+:root {
+  --bg: #0b0d10;
+  --surface: #14171c;
+  --surface-2: #1b1f26;
+  --border: #262b33;
+  --fg: #e8eaed;
+  --muted: #9aa2ad;
+  --accent: #ff3e00;
+  --radius: 14px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+.muted { color: var(--muted); }
+.accent { color: var(--accent); }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+code, pre, .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+
+/* nav */
+nav {
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(12px); background: rgba(11,13,16,.72);
+  border-bottom: 1px solid var(--border);
+}
+nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 650; letter-spacing: -.01em; }
+.brand .mark { width: 28px; height: 28px; border-radius: 8px; background: var(--accent); display: grid; place-items: center; color: #fff; font-weight: 800; }
+.nav-links { display: flex; align-items: center; gap: 22px; font-size: 14px; }
+.nav-links a { color: var(--muted); transition: color .15s; }
+.nav-links a:hover { color: var(--fg); }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 16px; border-radius: 10px; font-weight: 600; font-size: 14px;
+  border: 1px solid var(--border); transition: all .15s;
+}
+.btn:hover { border-color: var(--accent); background: var(--surface-2); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { opacity: .92; background: var(--accent); }
+
+/* hero */
+.hero { text-align: center; padding: 72px 0 40px; }
+.pill {
+  display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 999px;
+  border: 1px solid var(--border); background: var(--surface); font-size: 12.5px; color: var(--muted); margin-bottom: 22px;
+}
+.pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+h1 { font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 700; letter-spacing: -.03em; margin: 0 0 16px; line-height: 1.05; }
+.lede { font-size: clamp(1.05rem, 2.2vw, 1.28rem); color: var(--muted); max-width: 640px; margin: 0 auto 28px; }
+.hero-cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.install { margin: 26px auto 0; max-width: 420px; display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 11px 16px; font-size: 14px; }
+.install .mono { color: var(--fg); }
+.install .prompt { color: var(--accent); }
+
+/* player showcase */
+.showcase { margin: 44px 0 8px; }
+ferrite-player { --fp-accent: var(--accent); box-shadow: 0 24px 80px rgba(0,0,0,.5); border: 1px solid var(--border); display: block; }
+.showcase .switch { display: flex; gap: 8px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+.showcase .switch button { background: var(--surface); color: var(--muted); border: 1px solid var(--border); border-radius: 8px; padding: 7px 14px; font-size: 13px; cursor: pointer; transition: all .15s; }
+.showcase .switch button:hover, .showcase .switch button.on { color: var(--fg); border-color: var(--accent); }
+
+/* sections */
+section { padding: 56px 0; border-top: 1px solid var(--border); }
+.eyebrow { text-transform: uppercase; font-size: 12px; letter-spacing: .08em; color: var(--accent); font-weight: 700; }
+h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 680; letter-spacing: -.02em; margin: 8px 0 10px; }
+.grid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 28px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; transition: border-color .15s, transform .15s; }
+.card:hover { border-color: rgba(255,62,0,.4); transform: translateY(-2px); }
+.card .ic { width: 38px; height: 38px; border-radius: 10px; background: #2a140c; color: var(--accent); display: grid; place-items: center; margin-bottom: 14px; font-size: 19px; }
+.card h3 { font-size: 15px; margin: 0 0 6px; }
+.card p { font-size: 14px; color: var(--muted); margin: 0; }
+
+/* code blocks */
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; overflow-x: auto; font-size: 13.5px; line-height: 1.7; }
+pre code { color: #d7dbe0; }
+.tok-tag { color: #ff8a5c; } .tok-attr { color: #7fd1c0; } .tok-str { color: #b7c98a; } .tok-kw { color: #ff8a5c; } .tok-com { color: #5b636e; }
+
+/* docs layout */
+.docs { display: grid; grid-template-columns: 220px 1fr; gap: 40px; padding: 40px 0 80px; align-items: start; }
+.side { position: sticky; top: 84px; }
+.side a { display: block; padding: 6px 0; color: var(--muted); font-size: 14px; transition: color .15s; }
+.side a:hover { color: var(--fg); }
+.side .grp { font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); opacity: .6; font-weight: 700; margin: 18px 0 6px; }
+.doc-body h2 { margin-top: 8px; scroll-margin-top: 80px; }
+.doc-body h3 { margin: 34px 0 8px; scroll-margin-top: 80px; font-size: 18px; }
+.doc-body p, .doc-body li { color: #cbd0d7; }
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+th { color: var(--muted); font-weight: 600; font-size: 12.5px; text-transform: uppercase; letter-spacing: .04em; }
+td code, p code, li code { background: var(--surface-2); padding: 2px 6px; border-radius: 5px; font-size: 13px; }
+
+footer { border-top: 1px solid var(--border); padding: 32px 0; color: var(--muted); font-size: 14px; }
+footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+@media (max-width: 760px) { .docs { grid-template-columns: 1fr; } .side { position: static; } }
