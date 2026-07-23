@@ -65,13 +65,13 @@ export class Skin {
       <div class="error"><div><p style="font-weight:600">Can’t play this video</p><p data-err style="opacity:.7;margin-top:4px"></p></div></div>
       <div class="controls">
         <div class="seek" data-seek role="slider" aria-label="Seek" tabindex="0">
-          <div class="track"><div class="buf" data-buf></div><div class="played" data-played></div><div class="thumb" data-thumb></div></div>
+          <div class="track"><div class="buf" data-buf></div><div class="played" data-played></div></div><div class="thumb" data-thumb></div>
         </div>
         <div class="row">
           <button class="ctl" data-play aria-label="Play">${icons.play}</button>
           <div class="volwrap row" style="gap:0">
             <button class="ctl" data-mute aria-label="Mute">${icons.volume}</button>
-            <div class="vol"><div class="seek" data-vol role="slider" aria-label="Volume" tabindex="0"><div class="track"><div class="played" data-volfill></div><div class="thumb" data-volthumb></div></div></div></div>
+            <div class="vol"><div class="seek" data-vol role="slider" aria-label="Volume" tabindex="0"><div class="track"><div class="played" data-volfill></div></div><div class="thumb" data-volthumb></div></div></div>
           </div>
           <span class="time" data-time>0:00 / 0:00</span>
           <button class="live" data-live aria-label="Go to live"><span class="dot"></span> LIVE</button>
