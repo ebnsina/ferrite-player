@@ -10,6 +10,8 @@ export interface ShakaController {
   selectQuality(id: number): void; // -1 = auto (ABR)
   getTextTracks(): TextTrack[];
   selectText(id: number): void; // -1 = off
+  /** Side-load an external subtitle file (already normalised to WebVTT). */
+  addText(url: string, language: string, kind: string, mime: string, label?: string): Promise<void>;
   isLive(): boolean;
   liveEdge(): number;
   on(event: string, cb: () => void): void;
@@ -102,6 +104,14 @@ export async function loadShaka(
         player.selectTextTrack(track);
         player.setTextTrackVisibility(true);
       }
+    },
+    async addText(url, language, kind, mime, label) {
+      const p = player as unknown as {
+        addTextTrackAsync: (
+          u: string, l: string, k: string, m: string, c?: string, lab?: string,
+        ) => Promise<unknown>;
+      };
+      await p.addTextTrackAsync(url, language, kind, mime, undefined, label);
     },
     isLive: () => player.isLive(),
     liveEdge: () => player.seekRange().end,

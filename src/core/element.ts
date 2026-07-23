@@ -1,6 +1,6 @@
 import { Engine } from './engine';
 import { createStore } from './store';
-import { type PlayerState, initialState, type LoadOptions } from './types';
+import { type PlayerState, initialState, type LoadOptions, type SubtitleSource } from './types';
 import { Skin } from '../ui/skin';
 import { css } from '../ui/styles';
 
@@ -67,6 +67,10 @@ export class FerritePlayer extends HTMLElement {
   }
   pause(): void {
     this.engine.pause();
+  }
+  /** Add subtitle tracks (WebVTT or SubRip) after the source has loaded. */
+  addSubtitles(list: SubtitleSource[]): Promise<void> {
+    return this.engine.addSubtitles(list);
   }
   get src(): string | null {
     return this.store.get().src;

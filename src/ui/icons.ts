@@ -30,4 +30,11 @@ export const icons = {
     '<path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/>',
   ),
   check: svg('<path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.42z"/>'),
+  airplay: svg(
+    '<path d="M6 22h12l-6-6zM21 3H3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4v-2H3V5h18v12h-4v2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/>',
+  ),
 };
+
+/** The Ferrite Player brand mark — a fixed accent squircle + play glyph. */
+export const brandMark =
+  '<svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="url(#fpb)"/><path d="M16.2 13.4c0-1.24 1.34-2.02 2.42-1.4l9.36 5.38c1.08.62 1.08 2.18 0 2.8l-9.36 5.38c-1.08.62-2.42-.16-2.42-1.4V13.4Z" fill="#fff"/><defs><linearGradient id="fpb" x1="4" y1="2" x2="36" y2="38" gradientUnits="userSpaceOnUse"><stop stop-color="#ff6a3d"/><stop offset="1" stop-color="#ff2d00"/></linearGradient></defs></svg>';

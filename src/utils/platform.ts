@@ -37,3 +37,11 @@ export function supportsPiP(): boolean {
       ?.WebKitPlaybackTargetAvailabilityEvent !== 'undefined'
   );
 }
+
+/** AirPlay availability (Safari / WebKit only). */
+export function supportsAirPlay(): boolean {
+  return (
+    typeof (win as unknown as { WebKitPlaybackTargetAvailabilityEvent?: unknown })
+      ?.WebKitPlaybackTargetAvailabilityEvent !== 'undefined'
+  );
+}

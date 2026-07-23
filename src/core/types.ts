@@ -23,12 +23,28 @@ export interface DrmConfig {
   fairplay?: { licenseUrl: string; certificateUri?: string };
 }
 
+/** A side-loaded subtitle/caption file (WebVTT or SubRip). */
+export interface SubtitleSource {
+  url: string;
+  /** BCP-47 language code, e.g. `en`, `es`. */
+  language: string;
+  label?: string;
+  kind?: 'subtitles' | 'captions';
+  /** Force SubRip parsing when the URL has no `.srt` extension. */
+  srt?: boolean;
+  default?: boolean;
+}
+
 export interface LoadOptions {
   live?: boolean;
   lowLatency?: boolean;
   drm?: DrmConfig;
   /** Start muted (required for programmatic autoplay in most browsers). */
   autoplay?: boolean;
+  /** Side-loaded subtitles (VTT or SRT), on top of any in-manifest tracks. */
+  subtitles?: SubtitleSource[];
+  /** WebVTT storyboard URL for hover seek previews (cues → `sprite#xywh`). */
+  thumbnails?: string;
 }
 
 /** Which playback engine handled the current source. */

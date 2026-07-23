@@ -134,6 +134,58 @@ button.ctl svg { width: 23px; height: 23px; fill: currentColor; }
   padding: 24px; background: rgba(0,0,0,.75); backdrop-filter: blur(2px);
 }
 .wrap.error .error { display: grid; }
-.wrap.error .center, .wrap.error .controls, .wrap.error .gradient { display: none; }
+.wrap.error .center, .wrap.error .controls, .wrap.error .gradient, .wrap.error .brand { display: none; }
+.btn-retry {
+  display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border: none;
+  border-radius: 10px; cursor: pointer; background: var(--fp-accent); color: #fff;
+  font: 600 13px system-ui; transition: filter .15s;
+}
+.btn-retry svg { width: 18px; height: 18px; fill: currentColor; }
+.btn-retry:hover { filter: brightness(1.08); }
+
+/* brand — corner mark that fades in with the controls */
+.brand {
+  position: absolute; top: 14px; left: 16px; z-index: 3; display: flex; align-items: center; gap: 8px;
+  opacity: 0; transform: translateY(-6px); transition: opacity .25s, transform .25s; pointer-events: none;
+}
+.wrap.show .brand, .wrap.paused .brand { opacity: 1; transform: none; }
+.brand svg { width: 24px; height: 24px; filter: drop-shadow(0 2px 6px rgba(0,0,0,.5)); }
+.brand > span { font-weight: 700; font-size: 13.5px; letter-spacing: -.01em; text-shadow: 0 1px 4px rgba(0,0,0,.6); }
+.brand .pw { opacity: .72; font-weight: 500; }
+.mbrand {
+  position: sticky; bottom: 0; display: flex; align-items: center; gap: 8px;
+  padding: 9px 10px 6px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,.08);
+  background: inherit; font-size: 11.5px; font-weight: 700; color: rgba(255,255,255,.55);
+}
+.mbrand svg { width: 16px; height: 16px; }
+
+/* seek hover / scrub preview (time bubble + storyboard thumbnail) */
+.preview {
+  position: absolute; bottom: calc(100% + 8px); left: 0; transform: translateX(-50%);
+  display: none; flex-direction: column; align-items: center; gap: 6px; pointer-events: none;
+}
+.seek.previewing .preview { display: flex; }
+.preview-img {
+  border-radius: 8px; border: 1px solid rgba(255,255,255,.18);
+  background: #000 center / cover no-repeat; box-shadow: 0 10px 30px rgba(0,0,0,.55); overflow: hidden;
+}
+.preview-time {
+  font: 600 12px/1 system-ui; padding: 4px 8px; border-radius: 6px;
+  background: rgba(10,10,12,.88); font-variant-numeric: tabular-nums; letter-spacing: .01em;
+}
+
+/* double-tap seek ripples (touch) */
+.ripple {
+  position: absolute; top: 50%; transform: translateY(-50%); padding: 12px 18px; border-radius: 40px;
+  background: rgba(0,0,0,.5); backdrop-filter: blur(4px); font-weight: 700; font-size: 14px;
+  animation: fp-ripple .55s ease forwards; pointer-events: none; z-index: 4;
+}
+.ripple.fwd { right: 7%; } .ripple.back { left: 7%; }
+@keyframes fp-ripple { from { opacity: 0; transform: translateY(-50%) scale(.85); } 30% { opacity: 1; } to { opacity: 0; } }
+
+/* touch: no hover, so drop the expand-on-hover volume slider (keep mute) */
+.wrap.touch .vol { display: none !important; }
+.wrap.touch button.ctl { width: 42px; height: 42px; }
+
 .hidden { display: none !important; }
 `;

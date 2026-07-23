@@ -6,3 +6,8 @@ coverage
 .env
 .vite
 docs/player/
+
+# local test media (generated)
+demo/test.mp4
+demo/storyboard.jpg
+demo/storyboard.vtt
