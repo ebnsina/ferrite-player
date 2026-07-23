@@ -50,7 +50,7 @@
 
       <main class="doc-body">
         <h1 style="font-size:2.2rem;letter-spacing:-.02em;margin:0 0 8px">Documentation</h1>
-        <p class="muted">One <code>&lt;ferrite-player&gt;</code> tag for HLS, DASH, MP4, and live. Shaka powers adaptive streaming and loads only when a manifest needs MSE.</p>
+        <p class="muted">One <code>&lt;ferrite-player&gt;</code> tag for HLS, DASH, MP4, and live. An adaptive engine powers streaming and loads only when a manifest needs MSE.</p>
 
         <h2 id="install">Install</h2>
         <pre><code>pnpm add ferrite-player</code></pre>
@@ -61,7 +61,7 @@
 
         <h2 id="quickstart">Quickstart</h2>
         <pre><code>&lt;ferrite-player src="https://cdn.example.com/master.m3u8"&gt;&lt;/ferrite-player&gt;</code></pre>
-        <p>The default skin — play, scrubbable seek, volume, quality, captions, PiP, fullscreen, live badge, keyboard shortcuts — is included. Point <code>src</code> at any <code>.m3u8</code>, <code>.mpd</code>, or <code>.mp4</code>; the player picks native playback where it can and lazy-loads Shaka for the rest.</p>
+        <p>The default skin — play, scrubbable seek, volume, quality, captions, PiP, fullscreen, live badge, keyboard shortcuts — is included. Point <code>src</code> at any <code>.m3u8</code>, <code>.mpd</code>, or <code>.mp4</code>; the player picks native playback where it can and lazy-loads the adaptive engine for the rest.</p>
 
         <h2 id="attributes">Attributes</h2>
         <table>
@@ -187,7 +187,7 @@ p.load(url);</code></pre>
 });</code></pre>
 
         <h2 id="subtitles">Subtitles (VTT &amp; SRT)</h2>
-        <p>Side-load captions in either format — SubRip is converted to WebVTT internally, so <code>.srt</code> and <code>.vtt</code> behave identically on both the native and Shaka engines. In-manifest tracks show up automatically; these add to them.</p>
+        <p>Side-load captions in either format — SubRip is converted to WebVTT internally, so <code>.srt</code> and <code>.vtt</code> behave identically on both the native and adaptive engines. In-manifest tracks show up automatically; these add to them.</p>
         <pre><code><span class="tok-com">// at load time…</span>
 await player.load(url, {
   subtitles: [
@@ -212,7 +212,7 @@ sprite.jpg#xywh=0,0,160,90</code></pre>
         <p class="muted">Without a storyboard you still get a time bubble on hover; with one you get frame previews.</p>
 
         <h2 id="browsers">Browser support</h2>
-        <p>Modern evergreen browsers. HLS plays natively on Safari/iOS; DASH and non-native HLS use Shaka (MSE + EME). MP4 plays natively everywhere. FairPlay on Safari, Widevine/PlayReady elsewhere.</p>
+        <p>Modern evergreen browsers. HLS plays natively on Safari/iOS; DASH and non-native HLS use MSE + EME. MP4 plays natively everywhere. FairPlay on Safari, Widevine/PlayReady elsewhere.</p>
 
         <p style="margin-top:40px"><a class="btn" href="./index.html">← Back home</a></p>
       </main>

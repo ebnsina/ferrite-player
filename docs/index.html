@@ -4,13 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Ferrite Player — one tag for HLS, DASH &amp; live video</title>
-    <meta name="description" content="Ferrite Player is a framework-agnostic web-component video player. One <ferrite-player> tag for HLS, DASH, MP4, and live — Shaka under the hood, loaded only when the stream needs it." />
+    <meta name="description" content="Ferrite Player is a framework-agnostic web-component video player. One <ferrite-player> tag for HLS, DASH, MP4, and live — with an adaptive engine loaded only when the stream needs it." />
     <link rel="icon" href="./logo.svg" type="image/svg+xml" />
 
     <!-- Open Graph / Twitter -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Ferrite Player" />
-    <meta property="og:description" content="One web-component tag for HLS, DASH, MP4, and live video. Shaka only when it's needed." />
+    <meta property="og:description" content="One web-component tag for HLS, DASH, MP4, and live video. Adaptive streaming, loaded only when needed." />
     <meta property="og:image" content="https://ebnsina.github.io/ferrite-player/og.png" />
     <meta property="og:url" content="https://ebnsina.github.io/ferrite-player/" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -42,7 +42,7 @@
       <h1>One tag for <span class="accent">any</span> video.</h1>
       <p class="lede">
         A framework-agnostic web-component player for <strong>HLS, DASH, MP4, and live</strong>.
-        Shaka powers adaptive streaming — but only downloads when a manifest actually needs it,
+        An adaptive engine powers streaming — but only downloads when a manifest actually needs it,
         so the core stays tiny.
       </p>
       <div class="hero-cta">
@@ -61,7 +61,7 @@
       </div>
       <div class="switch">
         <button data-src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" class="on"><i class="ph ph-monitor-play"></i> HLS</button>
-        <button data-src="https://storage.googleapis.com/shaka-demo-assets/angel-one/dash.mpd"><i class="ph ph-broadcast"></i> DASH</button>
+        <button data-src="https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"><i class="ph ph-broadcast"></i> DASH</button>
         <button data-src="https://test-streams.mux.dev/pts_shift/master.m3u8"><i class="ph ph-waveform"></i> Multi-audio</button>
       </div>
     </div>
@@ -75,12 +75,12 @@
           <div class="card wide">
             <div class="ic"><i class="ph-fill ph-play-circle"></i></div>
             <h3>One API, any format</h3>
-            <p>Point <code>src</code> at <code>.mp4</code>, <code>.m3u8</code>, or <code>.mpd</code>. It plays natively where the browser can — Safari/iOS HLS, MP4 — and lazy-loads Shaka for DASH, non-native HLS, and low-latency live.</p>
+            <p>Point <code>src</code> at <code>.mp4</code>, <code>.m3u8</code>, or <code>.mpd</code>. It plays natively where the browser can — Safari/iOS HLS, MP4 — and lazy-loads the adaptive engine for DASH, non-native HLS, and low-latency live.</p>
           </div>
           <div class="card wide">
             <div class="ic"><i class="ph-fill ph-lightning"></i></div>
             <h3>Tiny core</h3>
-            <p>Shaka ships as a separate chunk and only downloads when a manifest requires Media Source Extensions. MP4 and native HLS pay nothing for it.</p>
+            <p>The adaptive engine ships as a separate chunk and only downloads when a manifest requires Media Source Extensions. MP4 and native HLS pay nothing for it.</p>
           </div>
           <div class="card">
             <div class="ic"><i class="ph-fill ph-brackets-angle"></i></div>
@@ -90,7 +90,7 @@
           <div class="card">
             <div class="ic"><i class="ph-fill ph-broadcast"></i></div>
             <h3>Live &amp; low-latency</h3>
-            <p>A live badge with one-click jump-to-edge, plus low-latency mode via Shaka.</p>
+            <p>A live badge with one-click jump-to-edge, plus a low-latency mode.</p>
           </div>
           <div class="card">
             <div class="ic"><i class="ph-fill ph-lock-key"></i></div>
@@ -128,14 +128,14 @@
     <section>
       <div class="wrap">
         <span class="eyebrow">Compatibility</span>
-        <h2>Native where it can, Shaka where it must.</h2>
+        <h2>Native where it can, adaptive where it must.</h2>
         <p class="sub">Capabilities are detected at runtime — no assumptions about the browser.</p>
         <table class="matrix">
           <thead><tr><th>Format</th><th>Chrome / Edge</th><th>Firefox</th><th>Safari / iOS</th></tr></thead>
           <tbody>
             <tr><td>MP4</td><td><span class="tag native"><i class="ph-fill ph-check-circle"></i> Native</span></td><td><span class="tag native"><i class="ph-fill ph-check-circle"></i> Native</span></td><td><span class="tag native"><i class="ph-fill ph-check-circle"></i> Native</span></td></tr>
-            <tr><td>HLS</td><td><span class="tag mse"><i class="ph ph-cube"></i> Shaka (MSE)</span></td><td><span class="tag mse"><i class="ph ph-cube"></i> Shaka (MSE)</span></td><td><span class="tag native"><i class="ph-fill ph-check-circle"></i> Native</span></td></tr>
-            <tr><td>DASH</td><td><span class="tag mse"><i class="ph ph-cube"></i> Shaka (MSE)</span></td><td><span class="tag mse"><i class="ph ph-cube"></i> Shaka (MSE)</span></td><td><span class="tag mse"><i class="ph ph-cube"></i> Shaka (MSE)</span></td></tr>
+            <tr><td>HLS</td><td><span class="tag mse"><i class="ph ph-cube"></i> Adaptive (MSE)</span></td><td><span class="tag mse"><i class="ph ph-cube"></i> Adaptive (MSE)</span></td><td><span class="tag native"><i class="ph-fill ph-check-circle"></i> Native</span></td></tr>
+            <tr><td>DASH</td><td><span class="tag mse"><i class="ph ph-cube"></i> Adaptive (MSE)</span></td><td><span class="tag mse"><i class="ph ph-cube"></i> Adaptive (MSE)</span></td><td><span class="tag mse"><i class="ph ph-cube"></i> Adaptive (MSE)</span></td></tr>
             <tr><td>DRM</td><td>Widevine · PlayReady</td><td>Widevine</td><td>FairPlay</td></tr>
           </tbody>
         </table>

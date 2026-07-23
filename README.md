@@ -4,8 +4,8 @@
 
 **One `<ferrite-player>` tag for MP4, HLS, DASH, and live.**
 
-A framework-agnostic web-component video player. [Shaka Player](https://github.com/shaka-project/shaka-player)
-powers adaptive streaming under the hood — and loads **only when the stream
+A framework-agnostic web-component video player. An adaptive streaming engine
+powers HLS and DASH under the hood — and loads **only when the stream
 needs MSE**, so MP4 and native HLS pay nothing for it.
 
 [Live demo](https://ebnsina.github.io/ferrite-player/) · [Documentation](https://ebnsina.github.io/ferrite-player/docs.html) · Part of the [Ferrite](https://ferrite.io) video stack
@@ -20,8 +20,8 @@ needs MSE**, so MP4 and native HLS pay nothing for it.
 
 |  | |
 |---|---|
-| **One tag, any format** | Point `src` at `.mp4`, `.m3u8`, or `.mpd`. It plays natively where the browser can (Safari/iOS HLS, MP4) and lazy-loads Shaka for DASH, non-native HLS, and low-latency live. |
-| **Tiny core** | Shaka downloads as a separate chunk, and only when a manifest actually requires Media Source Extensions. |
+| **One tag, any format** | Point `src` at `.mp4`, `.m3u8`, or `.mpd`. It plays natively where the browser can (Safari/iOS HLS, MP4) and lazy-loads an adaptive engine for DASH, non-native HLS, and low-latency live. |
+| **Tiny core** | The adaptive engine downloads as a separate chunk, and only when a manifest actually requires Media Source Extensions. |
 | **HTML-first** | A standard custom element — no framework runtime. Drops into React, Vue, Svelte, or a plain HTML page unchanged. |
 | **DRM & live** | Widevine, PlayReady, and FairPlay; low-latency live with a live badge and one-click jump to the edge. |
 | **Captions & previews** | Side-load **VTT or SRT** subtitles (SRT auto-converted); hover the seek bar for a time bubble and **storyboard thumbnails**. |
@@ -101,12 +101,12 @@ ferrite-player {
 | Format | Chrome / Edge | Firefox | Safari / iOS |
 |---|---|---|---|
 | **MP4** | native | native | native |
-| **HLS** | Shaka (MSE) | Shaka (MSE) | native |
-| **DASH** | Shaka (MSE) | Shaka (MSE) | Shaka (MSE) |
+| **HLS** | Adaptive (MSE) | Adaptive (MSE) | native |
+| **DASH** | Adaptive (MSE) | Adaptive (MSE) | Adaptive (MSE) |
 | **DRM** | Widevine / PlayReady | Widevine | FairPlay |
 
 Modern evergreen browsers. Capabilities are detected at runtime — the player
-picks native playback wherever it can and falls back to Shaka otherwise.
+picks native playback wherever it can and falls back to the adaptive engine otherwise.
 
 ## Development
 
@@ -119,7 +119,7 @@ pnpm typecheck  # tsc --noEmit
 pnpm lint       # biome
 ```
 
-**Layout:** `src/core` (element · engine · shaka · store · types) ·
+**Layout:** `src/core` (element · engine · store · types) ·
 `src/ui` (skin · styles · icons) · `src/utils` (platform · format) ·
 `demo/` · `docs/` · `tests/`.
 
