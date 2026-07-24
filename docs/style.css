@@ -401,6 +401,67 @@ ferrite-player {
   font-size: 1rem;
 }
 
+/* interactive playground */
+.pg-label {
+  display: block;
+  text-align: center;
+  margin-bottom: 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.pg-label::before {
+  content: "▸ ";
+  color: var(--accent);
+}
+.playground {
+  display: grid;
+  gap: 14px;
+  margin-top: 16px;
+}
+.pg-custom {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 640px;
+  margin: 2px auto 0;
+}
+.pg-custom input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  transition: border-color 0.15s;
+}
+.pg-custom input::placeholder {
+  color: var(--faint);
+}
+.pg-custom input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+.pg-custom .btn {
+  flex: none;
+  padding-inline: 16px;
+}
+.pg-code {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  font-size: 0.82rem;
+  line-height: 1.6;
+}
+.pg-code code {
+  color: #cdd3db;
+  white-space: pre;
+}
+
 /* ---------- sections ---------- */
 section {
   padding: 40px 0;

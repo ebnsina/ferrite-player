@@ -67,13 +67,17 @@
     </header>
 
     <div class="wrap showcase">
+      <span class="pg-label">Playground — try every format right here</span>
       <div class="frame">
         <ferrite-player id="player" src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"></ferrite-player>
       </div>
-      <div class="switch">
-        <button data-src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8" class="on"><i class="ph ph-monitor-play"></i> HLS</button>
-        <button data-src="https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"><i class="ph ph-broadcast"></i> DASH</button>
-        <button data-src="https://test-streams.mux.dev/pts_shift/master.m3u8"><i class="ph ph-waveform"></i> Multi-audio</button>
+      <div class="playground">
+        <div class="switch" id="examples"></div>
+        <form class="pg-custom" id="customForm">
+          <input id="customUrl" type="url" spellcheck="false" placeholder="…or paste your own .m3u8 · .mpd · .mp4 URL" />
+          <button class="btn primary" type="submit"><i class="ph ph-play"></i> Load</button>
+        </form>
+        <pre class="pg-code"><code id="pgCode"></code></pre>
       </div>
     </div>
 
@@ -188,13 +192,67 @@
       });
       addEventListener('DOMContentLoaded', () => {
         const p = document.getElementById('player');
-        for (const b of document.querySelectorAll('.switch button')) {
-          b.onclick = () => {
-            document.querySelectorAll('.switch button').forEach((x) => x.classList.remove('on'));
-            b.classList.add('on');
-            p.load ? p.load(b.dataset.src) : p.setAttribute('src', b.dataset.src);
-          };
+        const MP4 = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+        const capsVtt = 'data:text/vtt,' + encodeURIComponent(
+          'WEBVTT\n\n00:00:01.000 --> 00:00:07.000\nSide-loaded captions — VTT or SRT.\n\n' +
+          '00:00:08.000 --> 00:00:14.000\nSRT is converted to VTT automatically.\n');
+        const chapVtt = 'data:text/vtt,' + encodeURIComponent(
+          'WEBVTT\n\n00:00:00.000 --> 00:02:00.000\nOpening\n\n' +
+          '00:02:00.000 --> 00:05:00.000\nThe Chase\n\n00:05:00.000 --> 00:10:00.000\nPayback\n');
+
+        const EXAMPLES = [
+          { id: 'hls', label: 'HLS', icon: 'monitor-play',
+            src: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8',
+            code: "await player.load('https://cdn.example.com/master.m3u8');" },
+          { id: 'dash', label: 'DASH', icon: 'broadcast',
+            src: 'https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd',
+            code: "await player.load('https://cdn.example.com/manifest.mpd');" },
+          { id: 'mp4', label: 'MP4', icon: 'film-strip', src: MP4,
+            code: "await player.load('https://cdn.example.com/video.mp4');" },
+          { id: 'live', label: 'Low-latency live', icon: 'cell-signal-full',
+            src: 'https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8',
+            opts: { lowLatency: true, live: true },
+            code: "await player.load('https://cdn.example.com/live.m3u8', {\n  lowLatency: true,\n});" },
+          { id: 'multi', label: 'Multi-audio', icon: 'waveform',
+            src: 'https://test-streams.mux.dev/pts_shift/master.m3u8',
+            code: "await player.load(url); // audio tracks appear in the menu" },
+          { id: 'cc', label: 'Captions', icon: 'closed-captioning', src: MP4,
+            subtitles: [{ url: capsVtt, language: 'en', label: 'English' }],
+            code: "await player.load(url);\nawait player.addSubtitles([\n  { url: '/caps/en.vtt', language: 'en', label: 'English' },\n]);" },
+          { id: 'chapters', label: 'Chapters', icon: 'list-bullets', src: MP4,
+            opts: { chapters: chapVtt },
+            code: "await player.load(url, { chapters: '/chapters.vtt' });" },
+        ];
+
+        const box = document.getElementById('examples');
+        const codeEl = document.getElementById('pgCode');
+        const setCode = (c) => { codeEl.textContent = c; };
+
+        async function run(ex, btn) {
+          [...box.children].forEach((x) => x.classList.remove('on'));
+          btn?.classList.add('on');
+          setCode(ex.code);
+          await p.load(ex.src, ex.opts || {});
+          if (ex.subtitles) await p.addSubtitles(ex.subtitles);
         }
+
+        for (const ex of EXAMPLES) {
+          const b = document.createElement('button');
+          b.innerHTML = `<i class="ph ph-${ex.icon}"></i> ${ex.label}`;
+          if (ex.id === 'hls') { b.classList.add('on'); setCode(ex.code); }
+          b.onclick = () => run(ex, b);
+          box.appendChild(b);
+        }
+
+        document.getElementById('customForm').addEventListener('submit', (e) => {
+          e.preventDefault();
+          const url = document.getElementById('customUrl').value.trim();
+          if (!url) return;
+          [...box.children].forEach((x) => x.classList.remove('on'));
+          setCode(`await player.load('${url}');`);
+          p.load(url);
+        });
+
         const copy = document.getElementById('copy');
         copy.onclick = async () => {
           try {
