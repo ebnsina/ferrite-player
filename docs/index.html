@@ -69,7 +69,7 @@
     <div class="wrap showcase">
       <span class="pg-label">Playground — try every format right here</span>
       <div class="frame">
-        <ferrite-player id="player" src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"></ferrite-player>
+        <ferrite-player id="player" poster="./media/poster.jpg" src="./media/hls/master.m3u8"></ferrite-player>
       </div>
       <div class="playground">
         <div class="switch" id="examples"></div>
@@ -192,36 +192,26 @@
       });
       addEventListener('DOMContentLoaded', () => {
         const p = document.getElementById('player');
-        const MP4 = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
-        const capsVtt = 'data:text/vtt,' + encodeURIComponent(
-          'WEBVTT\n\n00:00:01.000 --> 00:00:07.000\nSide-loaded captions — VTT or SRT.\n\n' +
-          '00:00:08.000 --> 00:00:14.000\nSRT is converted to VTT automatically.\n');
-        const chapVtt = 'data:text/vtt,' + encodeURIComponent(
-          'WEBVTT\n\n00:00:00.000 --> 00:02:00.000\nOpening\n\n' +
-          '00:02:00.000 --> 00:05:00.000\nThe Chase\n\n00:05:00.000 --> 00:10:00.000\nPayback\n');
+        // Everything below is self-hosted alongside the site (GitHub Pages CDN),
+        // so the playground never depends on flaky third-party test streams.
+        const MP4 = './media/demo.mp4';
 
         const EXAMPLES = [
-          { id: 'hls', label: 'HLS', icon: 'monitor-play',
-            src: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8',
+          { id: 'hls', label: 'HLS', icon: 'monitor-play', src: './media/hls/master.m3u8',
             code: "await player.load('https://cdn.example.com/master.m3u8');" },
-          { id: 'dash', label: 'DASH', icon: 'broadcast',
-            src: 'https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd',
+          { id: 'dash', label: 'DASH', icon: 'broadcast', src: './media/dash/manifest.mpd',
             code: "await player.load('https://cdn.example.com/manifest.mpd');" },
           { id: 'mp4', label: 'MP4', icon: 'film-strip', src: MP4,
             code: "await player.load('https://cdn.example.com/video.mp4');" },
-          { id: 'live', label: 'Low-latency live', icon: 'cell-signal-full',
-            src: 'https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8',
-            opts: { lowLatency: true, live: true },
-            code: "await player.load('https://cdn.example.com/live.m3u8', {\n  lowLatency: true,\n});" },
-          { id: 'multi', label: 'Multi-audio', icon: 'waveform',
-            src: 'https://test-streams.mux.dev/pts_shift/master.m3u8',
-            code: "await player.load(url); // audio tracks appear in the menu" },
           { id: 'cc', label: 'Captions', icon: 'closed-captioning', src: MP4,
-            subtitles: [{ url: capsVtt, language: 'en', label: 'English' }],
+            subtitles: [{ url: './media/captions.vtt', language: 'en', label: 'English' }],
             code: "await player.load(url);\nawait player.addSubtitles([\n  { url: '/caps/en.vtt', language: 'en', label: 'English' },\n]);" },
           { id: 'chapters', label: 'Chapters', icon: 'list-bullets', src: MP4,
-            opts: { chapters: chapVtt },
+            opts: { chapters: './media/chapters.vtt' },
             code: "await player.load(url, { chapters: '/chapters.vtt' });" },
+          { id: 'thumbs', label: 'Thumbnails', icon: 'image-square', src: MP4,
+            opts: { thumbnails: './media/storyboard.vtt' },
+            code: "await player.load(url, { thumbnails: '/storyboard.vtt' });\n// hover the seek bar" },
         ];
 
         const box = document.getElementById('examples');

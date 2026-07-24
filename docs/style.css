@@ -25,7 +25,8 @@
   --accent: #ff3e00;
   --accent-2: #ff6a3d;
   --accent-glow: rgba(255, 62, 0, 0.35);
-  --radius: 12px; /* rounded-xl — one token drives every corner */
+  --radius: 18px; /* containers / cards */
+  --radius-pill: 999px; /* buttons + chips — Video.js-style pills */
   --maxw: 1140px;
   --code-bg: #0b0d10; /* code blocks stay dark in both themes */
   --sans: "Mona Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -887,7 +888,25 @@ footer a.accent:hover {
   }
 }
 
-/* the demo player's corner follows the same single --radius token */
+/* the demo player's corner follows the same --radius token */
 .showcase ferrite-player {
   --fp-radius: var(--radius);
+}
+
+/* Video.js-style: buttons + chips are pills; inline code stays snug */
+.btn,
+.switch button,
+.theme-toggle,
+.install,
+.pill,
+.steps .n,
+.nav-links a,
+.side a {
+  border-radius: var(--radius-pill);
+}
+.card p code,
+.doc-body p code,
+.doc-body li code,
+.doc-body td code {
+  border-radius: 7px;
 }
