@@ -767,8 +767,8 @@ footer a.accent:hover {
 /* ---------- docs page ---------- */
 .docs {
   display: grid;
-  grid-template-columns: 220px minmax(0, 1fr);
-  gap: 48px;
+  grid-template-columns: 220px minmax(0, 1fr) 200px;
+  gap: 44px;
   padding-top: 40px;
   padding-bottom: 80px;
   align-items: start;
@@ -778,18 +778,47 @@ footer a.accent:hover {
   top: 90px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+}
+.navgrp {
+  margin-bottom: 10px;
 }
 .side .grp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  appearance: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--sans);
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: var(--faint);
   font-weight: 700;
-  margin: 18px 0 6px;
+  padding: 6px 12px;
 }
-.side .grp:first-child {
-  margin-top: 0;
+.side .grp i {
+  font-size: 0.85rem;
+  transition: transform 0.2s;
+}
+.navgrp.collapsed .grp i {
+  transform: rotate(180deg);
+}
+.grp-links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow: hidden;
+  max-height: 40rem;
+  transition: max-height 0.25s ease;
+}
+.navgrp.collapsed .grp-links {
+  max-height: 0;
 }
 .side a {
   padding: 6px 12px;
@@ -801,6 +830,77 @@ footer a.accent:hover {
 .side a:hover {
   color: var(--text);
   background: var(--surface);
+}
+
+/* right-hand "On this page" table of contents */
+.toc {
+  position: sticky;
+  top: 90px;
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.85rem;
+}
+.toc-title {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+  font-weight: 700;
+  margin-bottom: 8px;
+  padding-left: 12px;
+}
+#toc {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.toc a {
+  display: block;
+  padding: 4px 12px;
+  color: var(--muted);
+  border-left: 2px solid var(--border);
+  line-height: 1.4;
+  transition: color 0.15s, border-color 0.15s;
+}
+.toc a.sub {
+  padding-left: 24px;
+}
+.toc a:hover {
+  color: var(--text);
+}
+.toc a.active {
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+
+/* callout box */
+.callout {
+  display: flex;
+  gap: 12px;
+  padding: 16px 18px;
+  margin: 20px 0 8px;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.callout > i {
+  color: var(--accent);
+  font-size: 1.3rem;
+  flex: none;
+  margin-top: 1px;
+}
+.callout strong {
+  display: block;
+  margin-bottom: 3px;
+}
+.callout p {
+  color: var(--muted);
+  font-size: 0.94rem;
+  margin: 0;
 }
 .doc-body {
   min-width: 0;
@@ -886,15 +986,22 @@ footer a.accent:hover {
   }
   .side {
     position: static;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-bottom: 20px;
+    max-height: none;
+    margin-bottom: 12px;
   }
-  .side .grp {
+  .toc {
     display: none;
   }
   .nav-links a.hide-sm {
+    display: none;
+  }
+}
+@media (max-width: 1080px) and (min-width: 861px) {
+  /* drop the ToC first, keep the left nav */
+  .docs {
+    grid-template-columns: 200px minmax(0, 1fr);
+  }
+  .toc {
     display: none;
   }
 }

@@ -40,31 +40,51 @@
 
     <div class="wrap docs">
       <aside class="side">
-        <div class="grp">Start</div>
-        <a href="#install">Install</a>
-        <a href="#quickstart">Quickstart</a>
-        <div class="grp">Reference</div>
-        <a href="#attributes">Attributes</a>
-        <a href="#api">JavaScript API</a>
-        <a href="#state">State</a>
-        <a href="#events">Events</a>
-        <a href="#keyboard">Keyboard</a>
-        <div class="grp">Guides</div>
-        <a href="#theming">Theming</a>
-        <a href="#frameworks">Frameworks</a>
-        <a href="#live">Live streaming</a>
-        <a href="#drm">DRM</a>
-        <a href="#subtitles">Subtitles</a>
-        <a href="#thumbnails">Hover thumbnails</a>
-        <a href="#audio">Audio tracks</a>
-        <a href="#chapters">Chapters</a>
-        <a href="#casting">Casting</a>
-        <a href="#browsers">Browser support</a>
+        <div class="navgrp">
+          <button class="grp" aria-expanded="true">Getting started <i class="ph ph-caret-up"></i></button>
+          <div class="grp-links">
+            <a href="#install">Install</a>
+            <a href="#quickstart">Quickstart</a>
+          </div>
+        </div>
+        <div class="navgrp">
+          <button class="grp" aria-expanded="true">Reference <i class="ph ph-caret-up"></i></button>
+          <div class="grp-links">
+            <a href="#attributes">Attributes</a>
+            <a href="#api">JavaScript API</a>
+            <a href="#state">State</a>
+            <a href="#events">Events</a>
+            <a href="#keyboard">Keyboard</a>
+          </div>
+        </div>
+        <div class="navgrp">
+          <button class="grp" aria-expanded="true">Guides <i class="ph ph-caret-up"></i></button>
+          <div class="grp-links">
+            <a href="#theming">Theming</a>
+            <a href="#frameworks">Frameworks</a>
+            <a href="#live">Live streaming</a>
+            <a href="#drm">DRM</a>
+            <a href="#subtitles">Subtitles</a>
+            <a href="#thumbnails">Hover thumbnails</a>
+            <a href="#audio">Audio tracks</a>
+            <a href="#chapters">Chapters</a>
+            <a href="#casting">Casting</a>
+            <a href="#browsers">Browser support</a>
+          </div>
+        </div>
       </aside>
 
       <main class="doc-body">
         <h1 style="font-size:2.2rem;letter-spacing:-.02em;margin:0 0 8px">Documentation</h1>
         <p class="muted">One <code>&lt;ferrite-player&gt;</code> tag for HLS, DASH, MP4, and live. An adaptive engine powers streaming and loads only when a manifest needs MSE.</p>
+
+        <div class="callout">
+          <i class="ph-fill ph-warning-circle"></i>
+          <div>
+            <strong>Early release</strong>
+            <p>Ferrite Player is <code>0.0.1</code> — core playback and the default skin are solid, but the API may still evolve. Pin a version in production.</p>
+          </div>
+        </div>
 
         <h2 id="install">Install</h2>
         <pre><code>pnpm add ferrite-player</code></pre>
@@ -256,6 +276,11 @@ sprite.jpg#xywh=0,0,160,90</code></pre>
 
         <p style="margin-top:40px"><a class="btn" href="./index.html">← Back home</a></p>
       </main>
+
+      <nav class="toc" aria-label="On this page">
+        <div class="toc-title">On this page</div>
+        <div id="toc"></div>
+      </nav>
     </div>
 
     <footer>
@@ -275,6 +300,39 @@ sprite.jpg#xywh=0,0,160,90</code></pre>
         document.documentElement.setAttribute('data-theme', next);
         try { localStorage.setItem('fp-theme', next); } catch (e) {}
       });
+
+      // Collapsible sidebar groups
+      for (const g of document.querySelectorAll('.side .grp')) {
+        g.addEventListener('click', () => {
+          const open = g.getAttribute('aria-expanded') !== 'false';
+          g.setAttribute('aria-expanded', String(!open));
+          g.parentElement.classList.toggle('collapsed', open);
+        });
+      }
+
+      // Build "On this page" from section headings + scroll-spy
+      const toc = document.getElementById('toc');
+      const heads = [...document.querySelectorAll('.doc-body h2[id], .doc-body h3[id]')];
+      const links = new Map();
+      for (const h of heads) {
+        const a = document.createElement('a');
+        a.href = '#' + h.id;
+        a.textContent = h.textContent;
+        a.className = h.tagName === 'H3' ? 'sub' : '';
+        toc.appendChild(a);
+        links.set(h.id, a);
+      }
+      const setActive = () => {
+        let current = heads[0];
+        for (const h of heads) {
+          if (h.getBoundingClientRect().top <= 120) current = h;
+          else break;
+        }
+        for (const a of links.values()) a.classList.remove('active');
+        if (current) links.get(current.id)?.classList.add('active');
+      };
+      addEventListener('scroll', setActive, { passive: true });
+      setActive();
     </script>
   </body>
 </html>
