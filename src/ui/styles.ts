@@ -62,29 +62,30 @@ video { width: 100%; height: 100%; display: block; background: #000; object-fit:
   opacity: 0; transform: translateY(8px); transition: opacity .25s, transform .25s;
 }
 .wrap.show .controls, .wrap.paused .controls { opacity: 1; transform: none; }
+/* default: a contained glassy bar */
 .bar {
-  display: flex; align-items: center; gap: 2px;
+  display: flex; align-items: center; gap: 3px;
   margin: 0 10px 10px; padding: 5px 8px;
-  background: rgba(14,14,17,.42); backdrop-filter: blur(14px) saturate(1.5);
-  border: 1px solid rgba(255,255,255,.09); border-radius: 16px;
+  background: rgba(14,14,17,.4); backdrop-filter: blur(14px) saturate(1.4);
+  border: 1px solid rgba(255,255,255,.08); border-radius: 16px;
 }
-/* minimal: a floating pill inset further from the edges */
+/* minimal: no chrome — bare controls resting on the gradient scrim */
 .wrap.minimal .bar {
-  margin: 0 16px 16px; padding: 6px 10px; border-radius: 999px;
-  background: rgba(14,14,17,.5); box-shadow: 0 8px 30px rgba(0,0,0,.35);
+  margin: 0 6px 4px; padding: 2px 4px; border-radius: 0;
+  background: none; border: none; backdrop-filter: none; box-shadow: none;
 }
 .row { display: flex; align-items: center; gap: 4px; }
 button.ctl {
-  appearance: none; border: none; background: none; color: #fff; cursor: pointer;
-  width: 38px; height: 38px; border-radius: 999px; display: grid; place-items: center;
-  transition: background .12s, transform .1s; flex: none;
+  appearance: none; border: none; background: none; color: rgba(255,255,255,.9); cursor: pointer;
+  width: 36px; height: 36px; border-radius: 999px; display: grid; place-items: center;
+  transition: background .12s, transform .1s, color .12s; flex: none;
 }
-button.ctl.sm { width: 34px; height: 34px; }
-button.ctl:hover { background: rgba(255,255,255,.16); }
+button.ctl.sm { width: 32px; height: 32px; color: rgba(255,255,255,.72); }
+button.ctl:hover { background: rgba(255,255,255,.15); color: #fff; }
 button.ctl:active { transform: scale(.92); }
-button.ctl svg { width: 23px; height: 23px; fill: currentColor; }
-button.ctl.sm svg { width: 21px; height: 21px; }
-.time { font-variant-numeric: tabular-nums; padding: 0 6px; opacity: .92; white-space: nowrap; letter-spacing: .01em; font-size: 12.5px; flex: none; }
+button.ctl svg { width: 22px; height: 22px; fill: currentColor; }
+button.ctl.sm svg { width: 20px; height: 20px; }
+.time { font-variant-numeric: tabular-nums; padding: 0 8px; opacity: .9; white-space: nowrap; letter-spacing: .01em; font-size: 12.5px; flex: none; }
 .time.rem { display: none; }
 .wrap.minimal .time.rem { display: inline; }
 

@@ -178,10 +178,20 @@ export class Skin {
     };
   }
 
+  /** Play/pause — but when the video has ended, replay from the start. */
+  private playPause(): void {
+    if (this.store.get().ended) {
+      this.engine.seek(0);
+      void this.engine.play();
+    } else {
+      this.engine.toggle();
+    }
+  }
+
   private wire(): void {
     const e = this.engine;
-    this.el.big.onclick = () => e.toggle();
-    this.el.play.onclick = () => e.toggle();
+    this.el.big.onclick = () => this.playPause();
+    this.el.play.onclick = () => this.playPause();
     this.el.mute.onclick = () => {
       this.userMuted = true;
       e.setMuted(!this.video.muted);
@@ -222,7 +232,7 @@ export class Skin {
 
     if (hasTouch) this.setupTouch();
     else {
-      this.video.addEventListener('click', () => e.toggle());
+      this.video.addEventListener('click', () => this.playPause());
       this.video.addEventListener('dblclick', () => this.toggleFullscreen());
     }
 
@@ -323,7 +333,7 @@ export class Skin {
           this.engine.seekBy(10);
           this.ripple('fwd');
         } else {
-          this.engine.toggle();
+          this.playPause();
         }
         lastTap = 0;
       } else {
@@ -359,7 +369,7 @@ export class Skin {
     const e = this.engine;
     const s = this.store.get();
     const k = ev.key.toLowerCase();
-    if (k === ' ' || k === 'k') e.toggle();
+    if (k === ' ' || k === 'k') this.playPause();
     else if (k === 'arrowright' || k === 'l') e.seekBy(k === 'l' ? 10 : 5);
     else if (k === 'arrowleft' || k === 'j') e.seekBy(k === 'j' ? -10 : -5);
     else if (k === 'arrowup') e.setVolume(Math.min(1, s.volume + 0.1));
