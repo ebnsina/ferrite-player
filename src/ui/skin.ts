@@ -597,9 +597,5 @@ export class Skin {
     for (const r of RATES) {
       menu.append(opt(r === 1 ? 'Normal' : `${r}×`, s.rate === r, () => this.engine.setRate(r)));
     }
-    const brand = document.createElement('div');
-    brand.className = 'mbrand';
-    brand.innerHTML = `${brandMark}<span>Ferrite Player</span>`;
-    menu.append(brand);
   }
 }

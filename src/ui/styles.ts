@@ -152,12 +152,6 @@ button.ctl svg { width: 23px; height: 23px; fill: currentColor; }
 .brand svg { width: 24px; height: 24px; filter: drop-shadow(0 2px 6px rgba(0,0,0,.5)); }
 .brand > span { font-weight: 700; font-size: 13.5px; letter-spacing: -.01em; text-shadow: 0 1px 4px rgba(0,0,0,.6); }
 .brand .pw { opacity: .72; font-weight: 500; }
-.mbrand {
-  position: sticky; bottom: 0; display: flex; align-items: center; gap: 8px;
-  padding: 9px 10px 6px; margin-top: 4px; border-top: 1px solid rgba(255,255,255,.08);
-  background: inherit; font-size: 11.5px; font-weight: 700; color: rgba(255,255,255,.55);
-}
-.mbrand svg { width: 16px; height: 16px; }
 
 /* seek hover / scrub preview (time bubble + storyboard thumbnail) */
 .preview {
