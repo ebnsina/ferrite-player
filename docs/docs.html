@@ -3,6 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem('fp-theme') ||
+            (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+          if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+        } catch (e) {}
+      })();
+    </script>
     <title>Docs — Ferrite Player</title>
     <meta name="description" content="Ferrite Player documentation: install, attributes, JavaScript API, state & events, theming, framework usage, live, and DRM." />
     <link rel="icon" href="./logo.svg" type="image/svg+xml" />
@@ -24,6 +33,7 @@
         <div class="nav-links">
           <a href="./index.html"><i class="ph ph-house"></i> Home</a>
           <a href="https://github.com/ebnsina/ferrite-player"><i class="ph ph-github-logo"></i> GitHub</a>
+          <button class="theme-toggle" aria-label="Toggle theme"><i class="ph ph-sun"></i><i class="ph ph-moon"></i></button>
         </div>
       </div>
     </nav>
@@ -259,6 +269,12 @@ sprite.jpg#xywh=0,0,160,90</code></pre>
       const onScroll = () => nav.classList.toggle('scrolled', scrollY > 10);
       addEventListener('scroll', onScroll, { passive: true });
       onScroll();
+      document.querySelector('.theme-toggle')?.addEventListener('click', () => {
+        const light = document.documentElement.getAttribute('data-theme') === 'light';
+        const next = light ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem('fp-theme', next); } catch (e) {}
+      });
     </script>
   </body>
 </html>

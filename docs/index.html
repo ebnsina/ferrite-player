@@ -3,6 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      // Apply saved/system theme before paint to avoid a flash.
+      (function () {
+        try {
+          var t = localStorage.getItem('fp-theme') ||
+            (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+          if (t === 'light') document.documentElement.setAttribute('data-theme', 'light');
+        } catch (e) {}
+      })();
+    </script>
     <title>Ferrite Player — one tag for HLS, DASH &amp; live video</title>
     <meta name="description" content="Ferrite Player is a framework-agnostic web-component video player. One <ferrite-player> tag for HLS, DASH, MP4, and live — with an adaptive engine loaded only when the stream needs it." />
     <link rel="icon" href="./logo.svg" type="image/svg+xml" />
@@ -33,6 +43,7 @@
         <div class="nav-links">
           <a href="./docs.html" class="hide-sm">Docs</a>
           <a href="https://github.com/ebnsina/ferrite-player"><i class="ph ph-github-logo"></i> GitHub</a>
+          <button class="theme-toggle" aria-label="Toggle theme"><i class="ph ph-sun"></i><i class="ph ph-moon"></i></button>
           <a class="btn primary" href="./docs.html#install"><i class="ph ph-rocket-launch"></i> Get started</a>
         </div>
       </div>
@@ -169,6 +180,12 @@
       const onScroll = () => nav.classList.toggle('scrolled', scrollY > 10);
       addEventListener('scroll', onScroll, { passive: true });
       onScroll();
+      document.querySelector('.theme-toggle')?.addEventListener('click', () => {
+        const light = document.documentElement.getAttribute('data-theme') === 'light';
+        const next = light ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        try { localStorage.setItem('fp-theme', next); } catch (e) {}
+      });
       addEventListener('DOMContentLoaded', () => {
         const p = document.getElementById('player');
         for (const b of document.querySelectorAll('.switch button')) {
