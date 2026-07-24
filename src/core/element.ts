@@ -18,13 +18,14 @@ import { type LoadOptions, type PlayerState, type SubtitleSource, initialState }
  */
 export class FerritePlayer extends HTMLElement {
   static get observedAttributes() {
-    return ['src', 'poster'];
+    return ['src', 'poster', 'mode'];
   }
 
   private store = createStore<PlayerState>(initialState);
   private video!: HTMLVideoElement;
   private engine!: Engine;
   private skin?: Skin;
+  private wrap!: HTMLElement;
   private ready = false;
 
   connectedCallback(): void {
@@ -36,6 +37,8 @@ export class FerritePlayer extends HTMLElement {
     style.textContent = css;
     const wrap = document.createElement('div');
     wrap.className = 'wrap';
+    this.wrap = wrap;
+    if (this.getAttribute('mode') === 'minimal') wrap.classList.add('minimal');
     this.video = document.createElement('video');
     this.video.playsInline = true;
     if (this.hasAttribute('muted')) this.video.muted = true;
@@ -67,6 +70,10 @@ export class FerritePlayer extends HTMLElement {
     if (!this.ready) return;
     if (name === 'src' && value) void this.load(value);
     if (name === 'poster' && this.video) this.video.poster = value ?? '';
+    if (name === 'mode' && this.wrap) {
+      this.wrap.classList.toggle('minimal', value === 'minimal');
+      this.store.set({}); // re-render so the time format follows the mode
+    }
   }
 
   // --- public API ----------------------------------------------------------

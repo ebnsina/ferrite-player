@@ -72,6 +72,10 @@
         <ferrite-player id="player" poster="./media/poster.jpg" src="./media/hls/master.m3u8"></ferrite-player>
       </div>
       <div class="playground">
+        <div class="segmented" id="modeToggle" role="tablist" aria-label="Skin mode">
+          <button data-mode="default" class="on">Default</button>
+          <button data-mode="minimal">Minimal</button>
+        </div>
         <div class="switch" id="examples"></div>
         <form class="pg-custom" id="customForm">
           <input id="customUrl" type="url" spellcheck="false" placeholder="…or paste your own .m3u8 · .mpd · .mp4 URL" />
@@ -232,6 +236,16 @@
           if (ex.id === 'hls') { b.classList.add('on'); setCode(ex.code); }
           b.onclick = () => run(ex, b);
           box.appendChild(b);
+        }
+
+        const modeBox = document.getElementById('modeToggle');
+        for (const b of modeBox.children) {
+          b.onclick = () => {
+            [...modeBox.children].forEach((x) => x.classList.remove('on'));
+            b.classList.add('on');
+            if (b.dataset.mode === 'minimal') p.setAttribute('mode', 'minimal');
+            else p.removeAttribute('mode');
+          };
         }
 
         document.getElementById('customForm').addEventListener('submit', (e) => {

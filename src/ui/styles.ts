@@ -56,25 +56,40 @@ video { width: 100%; height: 100%; display: block; background: #000; object-fit:
 @keyframes fp-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 2s; } .big, .gradient, .controls { transition: none; } }
 
-/* controls */
+/* controls — single glassy bar (Video.js-style) with default + minimal modes */
 .controls {
-  position: absolute; inset: auto 0 0 0; padding: 0 14px 10px;
+  position: absolute; inset: auto 0 0 0;
   opacity: 0; transform: translateY(8px); transition: opacity .25s, transform .25s;
 }
 .wrap.show .controls, .wrap.paused .controls { opacity: 1; transform: none; }
+.bar {
+  display: flex; align-items: center; gap: 2px;
+  margin: 0 10px 10px; padding: 5px 8px;
+  background: rgba(14,14,17,.42); backdrop-filter: blur(14px) saturate(1.5);
+  border: 1px solid rgba(255,255,255,.09); border-radius: 16px;
+}
+/* minimal: a floating pill inset further from the edges */
+.wrap.minimal .bar {
+  margin: 0 16px 16px; padding: 6px 10px; border-radius: 999px;
+  background: rgba(14,14,17,.5); box-shadow: 0 8px 30px rgba(0,0,0,.35);
+}
 .row { display: flex; align-items: center; gap: 4px; }
-.spacer { flex: 1; }
 button.ctl {
   appearance: none; border: none; background: none; color: #fff; cursor: pointer;
-  width: 38px; height: 38px; border-radius: 9px; display: grid; place-items: center;
-  transition: background .12s, transform .1s;
+  width: 38px; height: 38px; border-radius: 999px; display: grid; place-items: center;
+  transition: background .12s, transform .1s; flex: none;
 }
+button.ctl.sm { width: 34px; height: 34px; }
 button.ctl:hover { background: rgba(255,255,255,.16); }
 button.ctl:active { transform: scale(.92); }
 button.ctl svg { width: 23px; height: 23px; fill: currentColor; }
-.time { font-variant-numeric: tabular-nums; padding: 0 8px; opacity: .92; white-space: nowrap; letter-spacing: .01em; }
+button.ctl.sm svg { width: 21px; height: 21px; }
+.time { font-variant-numeric: tabular-nums; padding: 0 6px; opacity: .92; white-space: nowrap; letter-spacing: .01em; font-size: 12.5px; flex: none; }
+.time.rem { display: none; }
+.wrap.minimal .time.rem { display: inline; }
 
 /* seek + volume sliders */
+.bar > .seek { flex: 1; min-width: 40px; margin: 0 8px; }
 .seek { position: relative; height: 18px; display: flex; align-items: center; cursor: pointer; margin: 0 4px 2px; }
 .track { position: relative; height: 4px; width: 100%; border-radius: 999px; background: rgba(255,255,255,.28); overflow: hidden; transition: height .12s; }
 .seek:hover .track, .seek:focus-visible .track { height: 6px; }

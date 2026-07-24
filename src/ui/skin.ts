@@ -35,7 +35,9 @@ type El =
   | 'vol'
   | 'volfill'
   | 'volthumb'
-  | 'cc'
+  | 'back10'
+  | 'fwd10'
+  | 'remain'
   | 'settings'
   | 'pip'
   | 'airplay'
@@ -117,20 +119,21 @@ export class Skin {
         </div>
       </div>
       <div class="controls">
-        <div class="seek" data-seek role="slider" aria-label="Seek" tabindex="0">
-          <div class="preview" data-preview><div class="preview-img" data-preview-img></div><span class="preview-chap" data-preview-chap></span><span class="preview-time" data-preview-time>0:00</span></div>
-          <div class="track"><div class="buf" data-buf></div><div class="played" data-played></div><div class="chapters" data-chapters></div></div><div class="thumb" data-thumb></div>
-        </div>
-        <div class="row">
+        <div class="bar">
           <button class="ctl" data-play aria-label="Play">${icons.play}</button>
+          <button class="ctl sm" data-back10 aria-label="Back 10 seconds">${icons.back10}</button>
+          <button class="ctl sm" data-fwd10 aria-label="Forward 10 seconds">${icons.fwd10}</button>
+          <span class="time" data-time>0:00</span>
+          <div class="seek" data-seek role="slider" aria-label="Seek" tabindex="0">
+            <div class="preview" data-preview><div class="preview-img" data-preview-img></div><span class="preview-chap" data-preview-chap></span><span class="preview-time" data-preview-time>0:00</span></div>
+            <div class="track"><div class="buf" data-buf></div><div class="played" data-played></div><div class="chapters" data-chapters></div></div><div class="thumb" data-thumb></div>
+          </div>
+          <span class="time rem" data-remain></span>
+          <button class="live" data-live aria-label="Go to live"><span class="dot"></span> LIVE</button>
           <div class="volwrap row" style="gap:0">
             <button class="ctl" data-mute aria-label="Mute">${icons.volume}</button>
             <div class="vol"><div class="seek" data-vol role="slider" aria-label="Volume" tabindex="0"><div class="track"><div class="played" data-volfill></div></div><div class="thumb" data-volthumb></div></div></div>
           </div>
-          <span class="time" data-time>0:00 / 0:00</span>
-          <button class="live" data-live aria-label="Go to live"><span class="dot"></span> LIVE</button>
-          <span class="spacer"></span>
-          <button class="ctl" data-cc aria-label="Subtitles">${icons.captions}</button>
           <button class="ctl" data-settings aria-label="Settings">${icons.settings}</button>
           <button class="ctl hidden" data-cast aria-label="Cast">${icons.cast}</button>
           <button class="ctl" data-airplay aria-label="AirPlay">${icons.airplay}</button>
@@ -159,7 +162,9 @@ export class Skin {
       vol: q('[data-vol]'),
       volfill: q('[data-volfill]'),
       volthumb: q('[data-volthumb]'),
-      cc: q('[data-cc]'),
+      back10: q('[data-back10]'),
+      fwd10: q('[data-fwd10]'),
+      remain: q('[data-remain]'),
       settings: q('[data-settings]'),
       pip: q('[data-pip]'),
       airplay: q('[data-airplay]'),
@@ -182,8 +187,9 @@ export class Skin {
       e.setMuted(!this.video.muted);
     };
     this.el.unmute.onclick = () => e.setMuted(false);
+    this.el.back10.onclick = () => e.seekBy(-10);
+    this.el.fwd10.onclick = () => e.seekBy(10);
     this.el.live.onclick = () => e.goToLive();
-    this.el.cc.onclick = () => this.toggleCaptions();
     this.el.settings.onclick = () => this.el.menu.classList.toggle('open');
     this.el.pip.onclick = () => this.togglePiP();
     this.el.cast.onclick = () => void this.cast?.toggle(this.store.get().src);
@@ -482,14 +488,23 @@ export class Skin {
     this.el.played.style.width = `${pct}%`;
     this.el.buf.style.width = `${dur ? (s.buffered / dur) * 100 : 0}%`;
     this.el.thumb.style.left = `${pct}%`;
-    this.el.time.textContent = s.live ? 'LIVE' : `${fmt(s.currentTime)} / ${fmt(dur)}`;
+    // Default shows "current / total"; minimal shows current + a remaining slot.
+    const minimal = w.contains('minimal');
+    if (s.live) {
+      this.el.time.textContent = 'LIVE';
+      this.el.remain.textContent = '';
+    } else if (minimal) {
+      this.el.time.textContent = fmt(s.currentTime);
+      this.el.remain.textContent = `-${fmt(Math.max(0, dur - s.currentTime))}`;
+    } else {
+      this.el.time.textContent = `${fmt(s.currentTime)} / ${fmt(dur)}`;
+      this.el.remain.textContent = '';
+    }
 
     const vpct = (s.muted ? 0 : s.volume) * 100;
     this.el.volfill.style.width = `${vpct}%`;
     this.el.volthumb.style.left = `${vpct}%`;
 
-    this.el.cc.classList.toggle('hidden', s.textTracks.length === 0);
-    this.el.cc.style.color = s.currentText >= 0 ? 'var(--fp-accent)' : '';
     this.el.err.textContent = s.error ?? '';
     this.el.unmute.classList.toggle('show', !s.paused && s.muted && !this.userMuted);
 
