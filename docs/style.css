@@ -713,9 +713,11 @@ pre code {
   gap: 10px;
   margin-bottom: 12px;
 }
-.fw-head img {
+.fw-head img,
+.fw-head .fwic {
   width: 24px;
   height: 24px;
+  flex: none;
 }
 .fw-head b {
   font-size: 1rem;
