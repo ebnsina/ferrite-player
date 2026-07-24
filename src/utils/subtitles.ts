@@ -13,8 +13,7 @@ export function srtToVtt(srt: string): string {
   return `WEBVTT\n\n${body}\n`;
 }
 
-const isSrt = (url: string, kind?: string): boolean =>
-  kind === 'srt' || /\.srt(\?|#|$)/i.test(url);
+const isSrt = (url: string, kind?: string): boolean => kind === 'srt' || /\.srt(\?|#|$)/i.test(url);
 
 /**
  * Return a URL usable as `text/vtt`. VTT URLs pass straight through; SRT is

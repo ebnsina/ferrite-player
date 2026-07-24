@@ -1,8 +1,8 @@
-import { Engine } from './engine';
-import { createStore } from './store';
-import { type PlayerState, initialState, type LoadOptions, type SubtitleSource } from './types';
 import { Skin } from '../ui/skin';
 import { css } from '../ui/styles';
+import { Engine } from './engine';
+import { createStore } from './store';
+import { type LoadOptions, type PlayerState, type SubtitleSource, initialState } from './types';
 
 /**
  * `<ferrite-player src="…">` — one tag for MP4, HLS, DASH, and live. Renders a
@@ -11,6 +11,10 @@ import { css } from '../ui/styles';
  *
  * Imperative API: `el.load(src, opts)`, `el.play()`, `el.pause()`, `el.src`,
  * plus a live `el.state` snapshot and `el.on(cb)` for state changes.
+ *
+ * Discrete lifecycle events are dispatched as `ferrite:<name>` DOM events
+ * (play, pause, seeked, timeupdate, qualitychange, error, …) — the hook the
+ * analytics SDK listens on.
  */
 export class FerritePlayer extends HTMLElement {
   static get observedAttributes() {
@@ -40,7 +44,14 @@ export class FerritePlayer extends HTMLElement {
     wrap.appendChild(this.video);
     root.append(style, wrap);
 
-    this.engine = new Engine(this.video, (patch) => this.store.set(patch));
+    this.engine = new Engine(
+      this.video,
+      (patch) => this.store.set(patch),
+      (name, detail) =>
+        this.dispatchEvent(
+          new CustomEvent(`ferrite:${name}`, { detail, bubbles: true, composed: true }),
+        ),
+    );
     this.skin = new Skin(this, wrap, this.video, this.store, this.engine);
 
     const src = this.getAttribute('src');

@@ -1,6 +1,7 @@
 // Storyboard thumbnails for hover seek previews. Parses a WebVTT where each
 // cue's payload is an image URL with an optional media fragment
 // (`sprite.jpg#xywh=x,y,w,h`) — the format the Ferrite transcoder emits.
+import { parseTimestamp, vttBlocks } from './vtt';
 
 export interface Thumb {
   start: number;
@@ -13,12 +14,6 @@ export interface Thumb {
   h: number;
 }
 
-function parseTs(s: string): number {
-  const m = s.trim().match(/(?:(\d+):)?(\d{2}):(\d{2})[.,](\d{3})/);
-  if (!m) return Number.NaN;
-  return +(m[1] ?? 0) * 3600 + +(m[2] ?? 0) * 60 + +(m[3] ?? 0) + +(m[4] ?? 0) / 1000;
-}
-
 /** Fetch and parse a WebVTT storyboard into time-sorted thumbnail cues. */
 export async function loadThumbnails(vttUrl: string): Promise<Thumb[]> {
   const res = await fetch(vttUrl);
@@ -27,10 +22,8 @@ export async function loadThumbnails(vttUrl: string): Promise<Thumb[]> {
   const base = new URL(vttUrl, location.href);
   const cues: Thumb[] = [];
 
-  for (const block of text.replace(/\r/g, '').split('\n\n')) {
-    const lines = block.split('\n').filter(Boolean);
+  for (const lines of vttBlocks(text)) {
     const ti = lines.findIndex((l) => l.includes('-->'));
-    if (ti < 0) continue;
     const [from, to] = (lines[ti] as string).split('-->');
     const payload = lines[ti + 1];
     if (!from || !to || !payload) continue;
@@ -47,7 +40,15 @@ export async function loadThumbnails(vttUrl: string): Promise<Thumb[]> {
       w = +(xy[3] as string);
       h = +(xy[4] as string);
     }
-    cues.push({ start: parseTs(from), end: parseTs(to), url: new URL(rawUrl as string, base).href, x, y, w, h });
+    cues.push({
+      start: parseTimestamp(from),
+      end: parseTimestamp(to),
+      url: new URL(rawUrl as string, base).href,
+      x,
+      y,
+      w,
+      h,
+    });
   }
   return cues.sort((a, b) => a.start - b.start);
 }

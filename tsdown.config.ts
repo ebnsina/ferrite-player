@@ -15,6 +15,7 @@ export default defineConfig({
   // stays tiny — it only loads when a manifest actually needs MSE.
   noExternal: [/shaka-player/],
   outputOptions: {
-    chunkFileNames: (info) => `${(info.name || 'chunk').includes('shaka') ? 'mse' : info.name}-[hash].js`,
+    chunkFileNames: (info) =>
+      `${(info.name || 'chunk').includes('shaka') ? 'mse' : info.name}-[hash].js`,
   },
 });

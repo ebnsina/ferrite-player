@@ -3,7 +3,9 @@ import { classify } from '../src/utils/format';
 
 // A stub media element whose native-HLS support we can toggle.
 const media = (hls: boolean) =>
-  ({ canPlayType: (t: string) => (t.includes('mpegurl') && hls ? 'maybe' : '') }) as HTMLMediaElement;
+  ({
+    canPlayType: (t: string) => (t.includes('mpegurl') && hls ? 'maybe' : ''),
+  }) as HTMLMediaElement;
 
 describe('classify', () => {
   it('routes DASH to the MSE engine', () => {

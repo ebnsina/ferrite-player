@@ -7,6 +7,8 @@ export interface Prefs {
   rate?: number;
   /** Last chosen caption language, or null when captions were turned off. */
   textLang?: string | null;
+  /** Caption size: 'sm' | 'md' | 'lg'. */
+  textSize?: 'sm' | 'md' | 'lg';
 }
 
 const KEY = 'ferrite-player:prefs';

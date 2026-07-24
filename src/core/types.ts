@@ -15,6 +15,20 @@ export interface TextTrack {
   label: string;
 }
 
+/** A selectable audio track (usually a language / description variant). */
+export interface AudioTrack {
+  id: number;
+  language: string;
+  label: string;
+}
+
+/** A chapter marker on the timeline. */
+export interface Chapter {
+  start: number;
+  end: number;
+  title: string;
+}
+
 /** DRM configuration passed through to Shaka. */
 export interface DrmConfig {
   /** key-system → license server URL, e.g. `{ 'com.widevine.alpha': '…' }`. */
@@ -45,7 +59,35 @@ export interface LoadOptions {
   subtitles?: SubtitleSource[];
   /** WebVTT storyboard URL for hover seek previews (cues → `sprite#xywh`). */
   thumbnails?: string;
+  /** WebVTT chapters URL — adds markers to the seek bar. */
+  chapters?: string;
 }
+
+/** Discrete lifecycle events dispatched on the element as `ferrite:<name>`. */
+export const PLAYER_EVENTS = [
+  'loadstart',
+  'loadedmetadata',
+  'play',
+  'pause',
+  'playing',
+  'waiting',
+  'seeking',
+  'seeked',
+  'timeupdate',
+  'ended',
+  'ratechange',
+  'volumechange',
+  'qualitychange',
+  'audiochange',
+  'texttrackchange',
+  'enterfullscreen',
+  'exitfullscreen',
+  'enterpip',
+  'exitpip',
+  'cast',
+  'error',
+] as const;
+export type PlayerEvent = (typeof PLAYER_EVENTS)[number];
 
 /** Which playback engine handled the current source. */
 export type EngineKind = 'native' | 'mse';
@@ -73,6 +115,10 @@ export interface PlayerState {
   currentQuality: number;
   textTracks: TextTrack[];
   currentText: number; // -1 = off
+  audioTracks: AudioTrack[];
+  currentAudio: number; // -1 = default
+  chapters: Chapter[];
+  casting: boolean;
   error: string | null;
 }
 
@@ -97,5 +143,9 @@ export const initialState: PlayerState = {
   currentQuality: -1,
   textTracks: [],
   currentText: -1,
+  audioTracks: [],
+  currentAudio: -1,
+  chapters: [],
+  casting: false,
   error: null,
 };

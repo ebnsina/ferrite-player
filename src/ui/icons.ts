@@ -5,9 +5,7 @@ const svg = (p: string) => `<svg viewBox="0 0 24 24" aria-hidden="true">${p}</sv
 export const icons = {
   play: svg('<path d="M8 5v14l11-7z"/>'),
   pause: svg('<path d="M6 5h4v14H6zm8 0h4v14h-4z"/>'),
-  replay: svg(
-    '<path d="M12 5V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/>',
-  ),
+  replay: svg('<path d="M12 5V1L7 6l5 5V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/>'),
   volume: svg(
     '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a6.99 6.99 0 0 1 0 13.42v2.06a9 9 0 0 0 0-17.54z"/>',
   ),
@@ -33,6 +31,10 @@ export const icons = {
   airplay: svg(
     '<path d="M6 22h12l-6-6zM21 3H3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4v-2H3V5h18v12h-4v2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/>',
   ),
+  cast: svg(
+    '<path d="M1 18v3h3a3 3 0 0 0-3-3zm0-4v2a5 5 0 0 1 5 5h2a7 7 0 0 0-7-7zm0-4v2a9 9 0 0 1 9 9h2A11 11 0 0 0 1 10zM21 3H3a2 2 0 0 0-2 2v3h2V5h18v14h-7v2h7a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2z"/>',
+  ),
+  audio: svg('<path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/>'),
 };
 
 /** The Ferrite Player brand mark — a fixed accent squircle + play glyph. */

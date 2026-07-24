@@ -187,5 +187,28 @@ button.ctl svg { width: 23px; height: 23px; fill: currentColor; }
 .wrap.touch .vol { display: none !important; }
 .wrap.touch button.ctl { width: 42px; height: 42px; }
 
+/* chapter markers on the seek track */
+.chapters { position: absolute; inset: 0; pointer-events: none; }
+.cmark { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: rgba(0,0,0,.55); }
+.preview-chap { display: none; max-width: 200px; font: 600 11px/1.3 system-ui; text-align: center; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.7); padding: 0 4px; }
+
+/* tap-to-unmute pill (after muted autoplay) */
+.unmute {
+  position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+  display: none; align-items: center; gap: 7px; padding: 8px 14px; border: none; cursor: pointer;
+  border-radius: 999px; background: rgba(10,10,12,.7); backdrop-filter: blur(6px); color: #fff;
+  font: 600 12px system-ui; box-shadow: 0 6px 20px rgba(0,0,0,.4); pointer-events: auto;
+}
+.unmute.show { display: inline-flex; }
+.unmute svg { width: 17px; height: 17px; fill: currentColor; }
+
+/* caption sizing (native ::cue + adaptive-engine text container) */
+video::cue { font-size: 1.1em; background: rgba(0,0,0,.75); }
+.wrap.cue-sm video::cue { font-size: 0.85em; }
+.wrap.cue-lg video::cue { font-size: 1.5em; }
+.wrap.cue-sm .shaka-text-container { font-size: 2.2vmin !important; }
+.wrap.cue-md .shaka-text-container { font-size: 3vmin !important; }
+.wrap.cue-lg .shaka-text-container { font-size: 4.2vmin !important; }
+
 .hidden { display: none !important; }
 `;

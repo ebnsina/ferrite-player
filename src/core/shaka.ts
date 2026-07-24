@@ -1,7 +1,7 @@
 // Shaka wrapper — dynamically imported by the engine, so Shaka only downloads
 // when a stream actually needs MSE. Exposes just what the engine consumes.
 import shaka from 'shaka-player';
-import type { DrmConfig, Quality, TextTrack } from './types';
+import type { AudioTrack, DrmConfig, Quality, TextTrack } from './types';
 
 let polyfilled = false;
 
@@ -12,10 +12,24 @@ export interface ShakaController {
   selectText(id: number): void; // -1 = off
   /** Side-load an external subtitle file (already normalised to WebVTT). */
   addText(url: string, language: string, kind: string, mime: string, label?: string): Promise<void>;
+  getAudioTracks(): AudioTrack[];
+  currentAudio(): number;
+  selectAudio(id: number): void;
   isLive(): boolean;
   liveEdge(): number;
   on(event: string, cb: () => void): void;
   destroy(): Promise<void>;
+}
+
+/** BCP-47 code → human label, e.g. `en` → "English" (falls back to the code). */
+function languageName(code: string): string {
+  try {
+    return (
+      new Intl.DisplayNames([navigator.language || 'en'], { type: 'language' }).of(code) ?? code
+    );
+  } catch {
+    return code;
+  }
 }
 
 async function fairplayCert(uri: string): Promise<Uint8Array> {
@@ -90,9 +104,11 @@ export async function loadShaka(
       }
     },
     getTextTracks() {
-      return player
-        .getTextTracks()
-        .map((t) => ({ id: t.id, language: t.language, label: t.label || t.language || 'Unknown' }));
+      return player.getTextTracks().map((t) => ({
+        id: t.id,
+        language: t.language,
+        label: t.label || t.language || 'Unknown',
+      }));
     },
     selectText(id) {
       if (id < 0) {
@@ -108,10 +124,37 @@ export async function loadShaka(
     async addText(url, language, kind, mime, label) {
       const p = player as unknown as {
         addTextTrackAsync: (
-          u: string, l: string, k: string, m: string, c?: string, lab?: string,
+          u: string,
+          l: string,
+          k: string,
+          m: string,
+          c?: string,
+          lab?: string,
         ) => Promise<unknown>;
       };
       await p.addTextTrackAsync(url, language, kind, mime, undefined, label);
+    },
+    getAudioTracks() {
+      // One entry per distinct audio language (variants repeat it per quality).
+      const seen = new Map<string, AudioTrack>();
+      let i = 0;
+      for (const t of player.getVariantTracks()) {
+        const lang = t.language || 'und';
+        if (seen.has(lang)) continue;
+        seen.set(lang, { id: i++, language: lang, label: t.label || languageName(lang) });
+      }
+      return [...seen.values()];
+    },
+    currentAudio() {
+      const active = player.getVariantTracks().find((t) => t.active);
+      if (!active) return -1;
+      const langs = [...new Set(player.getVariantTracks().map((t) => t.language || 'und'))];
+      return langs.indexOf(active.language || 'und');
+    },
+    selectAudio(id) {
+      const langs = [...new Set(player.getVariantTracks().map((t) => t.language || 'und'))];
+      const lang = langs[id];
+      if (lang) player.selectAudioLanguage(lang);
     },
     isLive: () => player.isLive(),
     liveEdge: () => player.seekRange().end,
