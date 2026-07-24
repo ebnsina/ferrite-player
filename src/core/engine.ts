@@ -90,6 +90,10 @@ export class Engine {
       currentQuality: -1,
       currentText: -1,
       currentAudio: -1,
+      currentTime: 0,
+      duration: 0,
+      buffered: 0,
+      ended: false,
     });
   }
 
