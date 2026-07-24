@@ -8,14 +8,14 @@
   font-display: swap;
 }
 @font-face {
-  font-family: "Fira Mono";
-  src: url("./fonts/FiraMono-400.woff2") format("woff2");
+  font-family: "Geist Mono";
+  src: url("./fonts/GeistMono-400.woff2") format("woff2");
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
-  font-family: "Fira Mono";
-  src: url("./fonts/FiraMono-500.woff2") format("woff2");
+  font-family: "Geist Mono";
+  src: url("./fonts/GeistMono-500.woff2") format("woff2");
   font-weight: 500;
   font-display: swap;
 }
@@ -25,11 +25,11 @@
   --accent: #ff3e00;
   --accent-2: #ff6a3d;
   --accent-glow: rgba(255, 62, 0, 0.35);
-  --radius: 0; /* sharp-edged aesthetic */
+  --radius: 12px; /* rounded-xl — one token drives every corner */
   --maxw: 1140px;
   --code-bg: #0b0d10; /* code blocks stay dark in both themes */
   --sans: "Mona Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mono: "Fira Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   /* dark theme (default) */
   color-scheme: dark;
