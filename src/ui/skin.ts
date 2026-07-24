@@ -232,12 +232,21 @@ export class Skin {
 
     if (hasTouch) this.setupTouch();
     else {
-      this.video.addEventListener('click', () => this.playPause());
+      // Ignore the 2nd click of a double-click so a quick double-click doesn't
+      // toggle play back to where it started (it just goes fullscreen).
+      this.video.addEventListener('click', (ev) => {
+        if (ev.detail <= 1) this.playPause();
+      });
       this.video.addEventListener('dblclick', () => this.toggleFullscreen());
     }
 
+    // Close the settings menu on an outside click. Use composedPath(): a click
+    // inside the shadow DOM is retargeted to the host on `document`, so
+    // `ev.target` can't tell inside from outside — which previously closed the
+    // menu on pointerdown and swallowed the menu item's own click.
     document.addEventListener('pointerdown', (ev) => {
-      if (!this.el.menu.contains(ev.target as Node) && ev.target !== this.el.settings) {
+      const path = ev.composedPath();
+      if (!path.includes(this.el.menu) && !path.includes(this.el.settings)) {
         this.el.menu.classList.remove('open');
       }
     });
