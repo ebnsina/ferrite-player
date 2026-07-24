@@ -24,8 +24,10 @@ needs MSE**, so MP4 and native HLS pay nothing for it.
 | **Tiny core** | The adaptive engine downloads as a separate chunk, and only when a manifest actually requires Media Source Extensions. |
 | **HTML-first** | A standard custom element — no framework runtime. Drops into React, Vue, Svelte, or a plain HTML page unchanged. |
 | **DRM & live** | Widevine, PlayReady, and FairPlay; low-latency live with a live badge and one-click jump to the edge. |
-| **Captions & previews** | Side-load **VTT or SRT** subtitles (SRT auto-converted); hover the seek bar for a time bubble and **storyboard thumbnails**. |
-| **Mobile-ready** | Touch tap/double-tap gestures, iOS native fullscreen, AirPlay & Picture-in-Picture, and remembered volume/speed/captions. |
+| **Captions, chapters & previews** | Side-load **VTT or SRT** subtitles (SRT auto-converted); WebVTT **chapters** as seek markers; hover the seek bar for a time bubble and **storyboard thumbnails**. |
+| **Audio & casting** | Automatic multi-language **audio-track** switching; **AirPlay** + **Chromecast** (lazy-loaded), Picture-in-Picture. |
+| **Analytics-ready** | Discrete `ferrite:*` DOM events (play, seeked, qualitychange, error, …) — the hook a beacon/analytics SDK listens on. |
+| **Mobile-ready** | Touch tap/double-tap gestures, iOS native fullscreen, landscape-lock, and remembered volume/speed/captions. |
 | **Themeable & accessible** | Style via CSS custom properties (no shadow piercing). Full keyboard control, ARIA roles, and `prefers-reduced-motion` support. |
 
 ## Install

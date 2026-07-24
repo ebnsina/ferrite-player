@@ -36,7 +36,8 @@
         <div class="grp">Reference</div>
         <a href="#attributes">Attributes</a>
         <a href="#api">JavaScript API</a>
-        <a href="#state">State &amp; events</a>
+        <a href="#state">State</a>
+        <a href="#events">Events</a>
         <a href="#keyboard">Keyboard</a>
         <div class="grp">Guides</div>
         <a href="#theming">Theming</a>
@@ -45,6 +46,9 @@
         <a href="#drm">DRM</a>
         <a href="#subtitles">Subtitles</a>
         <a href="#thumbnails">Hover thumbnails</a>
+        <a href="#audio">Audio tracks</a>
+        <a href="#chapters">Chapters</a>
+        <a href="#casting">Casting</a>
         <a href="#browsers">Browser support</a>
       </aside>
 
@@ -88,7 +92,7 @@ player.src;             <span class="tok-com">// current source (getter)</span>
 player.src = url;       <span class="tok-com">// setter → loads</span></code></pre>
         <table>
           <tr><th>Method</th><th>Description</th></tr>
-          <tr><td><code>load(src, opts?)</code></td><td>Load a source with optional <code>LoadOptions</code> (live, lowLatency, drm, autoplay, <code>subtitles</code>, <code>thumbnails</code>).</td></tr>
+          <tr><td><code>load(src, opts?)</code></td><td>Load a source with optional <code>LoadOptions</code> (live, lowLatency, drm, autoplay, <code>subtitles</code>, <code>thumbnails</code>, <code>chapters</code>).</td></tr>
           <tr><td><code>addSubtitles(list)</code></td><td>Add WebVTT/SRT caption tracks after load.</td></tr>
           <tr><td><code>play()</code> / <code>pause()</code></td><td>Control playback.</td></tr>
           <tr><td><code>on(cb)</code></td><td>Subscribe to state changes; returns an unsubscribe function.</td></tr>
@@ -102,7 +106,33 @@ player.src = url;       <span class="tok-com">// setter → loads</span></code><
   console.log(s.currentTime, s.duration, s.paused, s.live, s.qualities);
 });
 <span class="tok-com">// later:</span> off();</code></pre>
-        <p><code>PlayerState</code> includes: <code>src</code>, <code>engine</code> (<code>'native'|'mse'</code>), <code>paused</code>, <code>waiting</code>, <code>currentTime</code>, <code>duration</code>, <code>buffered</code>, <code>volume</code>, <code>muted</code>, <code>rate</code>, <code>fullscreen</code>, <code>pip</code>, <code>live</code>, <code>atLiveEdge</code>, <code>qualities</code>, <code>currentQuality</code>, <code>textTracks</code>, <code>currentText</code>, and <code>error</code>.</p>
+        <p><code>PlayerState</code> includes: <code>src</code>, <code>engine</code> (<code>'native'|'mse'</code>), <code>paused</code>, <code>waiting</code>, <code>currentTime</code>, <code>duration</code>, <code>buffered</code>, <code>volume</code>, <code>muted</code>, <code>rate</code>, <code>fullscreen</code>, <code>pip</code>, <code>live</code>, <code>atLiveEdge</code>, <code>qualities</code>, <code>currentQuality</code>, <code>textTracks</code>, <code>currentText</code>, <code>audioTracks</code>, <code>currentAudio</code>, <code>chapters</code>, <code>casting</code>, and <code>error</code>.</p>
+
+        <h2 id="events">Events</h2>
+        <p>Beyond the state snapshot, the element fires discrete <code>ferrite:*</code> DOM events — the hook analytics integrations listen on. They bubble and cross the shadow boundary, so you can listen on the element or an ancestor.</p>
+        <pre><code>player.addEventListener('ferrite:play', () =&gt; beacon('play'));
+player.addEventListener('ferrite:seeked', (e) =&gt; beacon('seek', e.detail.currentTime));
+player.addEventListener('ferrite:qualitychange', (e) =&gt; beacon('quality', e.detail.id));
+player.addEventListener('ferrite:error', (e) =&gt; beacon('error', e.detail.message));</code></pre>
+        <table>
+          <tr><th>Event</th><th>When</th></tr>
+          <tr><td><code>loadstart</code> · <code>loadedmetadata</code></td><td>A source starts / finishes loading metadata</td></tr>
+          <tr><td><code>play</code> · <code>pause</code> · <code>playing</code> · <code>waiting</code> · <code>ended</code></td><td>Playback lifecycle</td></tr>
+          <tr><td><code>seeking</code> · <code>seeked</code> · <code>timeupdate</code></td><td>Position changes (<code>detail.currentTime</code>)</td></tr>
+          <tr><td><code>qualitychange</code> · <code>audiochange</code> · <code>texttrackchange</code></td><td>Track selection (<code>detail.id</code>)</td></tr>
+          <tr><td><code>ratechange</code> · <code>volumechange</code></td><td>Rate / volume changes</td></tr>
+          <tr><td><code>error</code></td><td>Playback failed (<code>detail.message</code>)</td></tr>
+        </table>
+
+        <h2 id="audio">Audio tracks</h2>
+        <p>Multi-language / multi-track audio is detected automatically and appears as an <strong>Audio</strong> section in the settings menu — no configuration. Read <code>state.audioTracks</code> / <code>state.currentAudio</code> to drive your own UI.</p>
+
+        <h2 id="chapters">Chapters</h2>
+        <p>Pass a WebVTT chapters file — markers appear on the seek bar and the chapter title shows in the hover preview. Same format as any WebVTT, with each cue's text as the title.</p>
+        <pre><code>await player.load(url, { chapters: '/chapters.vtt' });</code></pre>
+
+        <h2 id="casting">Casting</h2>
+        <p><strong>AirPlay</strong> (Safari) and <strong>Chromecast</strong> (Chromium) buttons appear automatically when a receiver is available — the Cast SDK is lazy-loaded on demand, never in the core bundle. <strong>Picture-in-Picture</strong> works everywhere it's supported.</p>
 
         <h2 id="keyboard">Keyboard</h2>
         <table>
